@@ -1,0 +1,16 @@
+# Variables de entorno
+.env
+
+# PHP
+vendor/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema
+.DS_Store
+Thumbs.db
