@@ -1,6 +1,9 @@
 # Variables de entorno
 .env
 
+# MCP config (contiene tokens secretos)
+.mcp.json
+
 # PHP
 vendor/
 *.log

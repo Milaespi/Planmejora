@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informe Semana 5 — Diseño del Sistema: Interfaces de Usuario y API REST</title>
+  <style>
+    @page { size: A4; margin: 1.8cm 2cm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #1a1a2e; background: #fff; max-width: 820px; margin: 0 auto; padding: 24px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1a3a5c; padding-bottom: 6px; margin-bottom: 18px; font-size: 8.5pt; color: #1a3a5c; }
+    .report-title { text-align: center; margin: 22px 0 18px; }
+    .report-title h1 { font-size: 22pt; font-weight: 900; letter-spacing: 1px; color: #1a1a2e; }
+    .report-title h2 { font-size: 12pt; color: #2472a4; font-weight: 600; margin-top: 4px; }
+    .report-title h3 { font-size: 11pt; font-weight: 400; margin-top: 3px; color: #2c3e50; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+    .info-table .header-row td { background: #1a3a5c; color: #fff; text-align: center; font-size: 12pt; font-weight: 700; padding: 10px; }
+    .info-table td { padding: 7px 12px; border: 1px solid #b0bec5; font-size: 10.5pt; }
+    .info-table td:first-child { background: #eaf0f6; font-weight: 700; width: 38%; }
+    h2.sec { color: #1a3a5c; font-size: 13.5pt; border-bottom: 2.5px solid #2472a4; padding-bottom: 4px; margin: 26px 0 10px; }
+    h3.sub { color: #2472a4; font-size: 11.5pt; margin: 16px 0 7px; }
+    p { margin-bottom: 9px; line-height: 1.55; text-align: justify; }
+    ul { margin: 7px 0 7px 22px; }
+    ul li { margin-bottom: 5px; line-height: 1.5; }
+    table.data { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+    table.data th { background: #1a3a5c; color: #fff; padding: 8px 10px; text-align: left; }
+    table.data td { padding: 6px 10px; border-bottom: 1px solid #dce3ea; }
+    table.data tr:nth-child(even) td { background: #f4f7fa; }
+    .diagram-box { margin: 20px 0; text-align: center; }
+    .fig-caption { font-style: italic; font-size: 9.5pt; color: #607d8b; margin-top: 7px; }
+    .sig-section { margin-top: 50px; border-top: 1px solid #b0bec5; padding-top: 20px; }
+    .sig-row { display: flex; justify-content: space-around; margin-top: 10px; }
+    .sig-block { text-align: center; width: 42%; }
+    .sig-line { border-top: 1.5px solid #1a3a5c; margin-top: 45px; padding-top: 7px; font-size: 10pt; }
+    .sig-name { font-weight: 700; font-size: 10.5pt; }
+    .sig-role { font-size: 9.5pt; color: #607d8b; }
+    .page-footer { text-align: center; font-size: 8.5pt; color: #90a4ae; border-top: 1px solid #dce3ea; margin-top: 30px; padding-top: 8px; }
+    .wireframe { background: #f8f9fa; border: 1px solid #b0bec5; font-family: 'Courier New', Courier, monospace; font-size: 9pt; padding: 10px; border-radius: 4px; margin: 10px 0; white-space: pre; line-height: 1.55; overflow-x: auto; }
+    .endpoint-group { margin-bottom: 4px; font-weight: 700; color: #1a3a5c; padding: 4px 10px; background: #eaf0f6; }
+    .method-get { color: #16a34a; font-weight: 700; }
+    .method-post { color: #2472a4; font-weight: 700; }
+    .method-put { color: #d97706; font-weight: 700; }
+    .method-patch { color: #7c3aed; font-weight: 700; }
+    .method-delete { color: #dc2626; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <span>Plan de Mejora — R.E Amueblamiento de Espacios S.A.S. | Semana 5</span>
+    <span>Práctica Profesional — Ingeniería de Sistemas</span>
+  </div>
+
+  <div class="report-title">
+    <h1>PLANMEJORA</h1>
+    <h2>Informe de Práctica Profesional — Semana 5</h2>
+    <h3>Semana 5: Diseño del Sistema — Interfaces de Usuario y API REST</h3>
+  </div>
+
+  <table class="info-table">
+    <tr class="header-row"><td colspan="2">Información General del Informe</td></tr>
+    <tr><td>Estudiante</td><td>María Camila Espinosa Flores</td></tr>
+    <tr><td>Empresa</td><td>R.E Amueblamiento de Espacios S.A.S.</td></tr>
+    <tr><td>Cargo</td><td>Secretaria Administrativa</td></tr>
+    <tr><td>Ciudad</td><td>Cali, Valle del Cauca</td></tr>
+    <tr><td>Período del informe</td><td>Semana 5 — 6 de Abril al 10 de Abril de 2026</td></tr>
+    <tr><td>Proyecto</td><td>Planmejora — Sistema de Monitoreo de Obras</td></tr>
+    <tr><td>Docente práctica</td><td>Por asignar</td></tr>
+  </table>
+
+  <!-- SECCIÓN 1 -->
+  <h2 class="sec">1. Objetivo de la Semana</h2>
+  <p>
+    Esta semana se diseñaron las interfaces de usuario y se especificó la API REST completa del sistema Planmejora. Se definieron los wireframes de las 4 pantallas principales, el flujo de navegación entre ellas y la estructura de todos los endpoints del backend, incluyendo métodos HTTP, rutas, parámetros y formatos de respuesta.
+  </p>
+  <p>
+    Este diseño constituye el contrato entre el frontend y el backend, garantizando que la implementación de ambas capas pueda realizarse de manera coherente e independiente en las semanas siguientes.
+  </p>
+
+  <!-- SECCIÓN 2 -->
+  <h2 class="sec">2. Diseño de Interfaces de Usuario</h2>
+  <p>
+    Se diseñaron cuatro pantallas representadas como wireframes en texto para documentar la estructura visual y funcional de cada vista. Estos wireframes sirven como guía directa para la implementación del HTML/CSS en las semanas 9 y 10.
+  </p>
+
+  <h3 class="sub">2.1 Login — index.html</h3>
+  <div class="wireframe">┌─────────────────────────────────────────┐
+│                                         │
+│      🏗 R.E Amueblamiento               │
+│    Sistema de Monitoreo de Obras        │
+│                                         │
+│  ┌───────────────────────────────────┐  │
+│  │  👤  Usuario                      │  │
+│  └───────────────────────────────────┘  │
+│  ┌───────────────────────────────────┐  │
+│  │  🔒  Contraseña                   │  │
+│  └───────────────────────────────────┘  │
+│  ┌───────────────────────────────────┐  │
+│  │       INGRESAR AL SISTEMA         │  │
+│  └───────────────────────────────────┘  │
+└─────────────────────────────────────────┘</div>
+
+  <h3 class="sub">2.2 Dashboard — dashboard.html</h3>
+  <div class="wireframe">┌──────────────────────────────────────────────────────┐
+│  🏗 Monitoreo de Proyectos        [+ Nuevo proyecto]  │
+├──────────────────────────────────────────────────────┤
+│  Filtro: [Todos ▼]  [Activos ▼]  [🔍 Buscar...]      │
+├──────────────────────────────────────────────────────┤
+│ ┌──────────────────────┐  ┌──────────────────────┐   │
+│ │ 🟢 Proyecto A        │  │ 🔴 Proyecto B         │   │
+│ │ Cra 5 #12-34         │  │ Av. Roosevelt #45     │   │
+│ │ Fase: Obra Blanca    │  │ Fase: Amueblamiento   │   │
+│ │ ██████░░ 75%         │  │ ████░░░░ 40%          │   │
+│ │ ⚠ 1 actividad atras.│  │ ✅ Al día              │   │
+│ │ [Ver detalle →]      │  │ [Ver detalle →]       │   │
+│ └──────────────────────┘  └──────────────────────┘   │
+└──────────────────────────────────────────────────────┘</div>
+
+  <h3 class="sub">2.3 Detalle de Proyecto — proyecto.html</h3>
+  <div class="wireframe">┌──────────────────────────────────────────────────────┐
+│  ← Volver   🏗 Proyecto A — Cra 5 #12-34             │
+│  Cliente: Juan García  |  Inicio: 01/04/2026          │
+├──────────────────────────────────────────────────────┤
+│  ┌── FASE 1: OBRA BLANCA ───────────────────────┐    │
+│  │ ✅ 1. Regatas          Completada  12/04/26  │    │
+│  │ ✅ 2. Hidráulico       Completada  15/04/26  │    │
+│  │ 🔄 3. Tubería A/C      En progreso           │    │
+│  │ ⏳ 4. Panel yeso       Pendiente  Est:25/04  │    │
+│  │ ⚠  5. Estuco          RETRASADA  Est:20/04  │    │
+│  └──────────────────────────────────────────────┘    │
+│  ┌── FASE 2: AMUEBLAMIENTO ─────────────────────┐    │
+│  │  (Bloqueada hasta completar Fase 1)           │    │
+│  └──────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────┘</div>
+
+  <h3 class="sub">2.4 Reportes — reportes.html</h3>
+  <div class="wireframe">┌──────────────────────────────────────────────────────┐
+│  📊 Reportes de Avance                                │
+├──────────────────────────────────────────────────────┤
+│  Proyecto: [Seleccionar ▼]    [Generar reporte]      │
+├──────────────────────────────────────────────────────┤
+│  Proyecto A — Informe al 10/04/2026                  │
+│  Total: 27  Completadas: 8  Retrasadas: 1            │
+│  Avance Fase 1: 62%    Avance Fase 2: 0%             │
+│                                                       │
+│  ⚠ Estuco — Est: 20/04 — RETRASADA                   │
+│                              [📄 Exportar PDF]       │
+└──────────────────────────────────────────────────────┘</div>
+
+  <!-- SECCIÓN 3 -->
+  <h2 class="sec">3. Flujo de Navegación</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 250" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Calibri, Arial, sans-serif">
+      <rect x="0" y="0" width="700" height="250" fill="#f8fafc" rx="8"/>
+
+      <!-- Definir marcadores de flecha -->
+      <defs>
+        <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#546e7a"/>
+        </marker>
+      </defs>
+
+      <!-- Login -->
+      <rect x="20" y="95" width="110" height="55" fill="#1a3a5c" rx="6"/>
+      <text x="75" y="118" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Login</text>
+      <text x="75" y="134" text-anchor="middle" font-size="8.5" fill="#bfdbfe">index.html</text>
+
+      <!-- Dashboard -->
+      <rect x="230" y="40" width="130" height="55" fill="#2472a4" rx="6"/>
+      <text x="295" y="63" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Dashboard</text>
+      <text x="295" y="79" text-anchor="middle" font-size="8.5" fill="#bfdbfe">dashboard.html</text>
+
+      <!-- Proyecto -->
+      <rect x="440" y="40" width="130" height="55" fill="#1a6b3a" rx="6"/>
+      <text x="505" y="63" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Detalle</text>
+      <text x="505" y="79" text-anchor="middle" font-size="8.5" fill="#bbf7d0">proyecto.html</text>
+
+      <!-- Nuevo Proyecto (modal) -->
+      <rect x="230" y="155" width="130" height="55" fill="#374151" rx="6" stroke-dasharray="5,3" stroke="#9ca3af" stroke-width="1.5"/>
+      <text x="295" y="178" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">Nuevo Proyecto</text>
+      <text x="295" y="194" text-anchor="middle" font-size="8.5" fill="#d1d5db">(modal)</text>
+
+      <!-- Reportes -->
+      <rect x="440" y="155" width="130" height="55" fill="#8e44ad" rx="6"/>
+      <text x="505" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Reportes</text>
+      <text x="505" y="194" text-anchor="middle" font-size="8.5" fill="#e9d5ff">reportes.html</text>
+
+      <!-- Flechas -->
+      <!-- Login → Dashboard (Admin/Supervisor) -->
+      <line x1="130" y1="112" x2="228" y2="75" stroke="#546e7a" stroke-width="1.8" marker-end="url(#arr)"/>
+      <text x="155" y="83" font-size="8" fill="#546e7a">Admin/</text>
+      <text x="155" y="93" font-size="8" fill="#546e7a">Supervisor</text>
+
+      <!-- Login → Proyecto (Trabajador) -->
+      <line x1="130" y1="130" x2="438" y2="75" stroke="#546e7a" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+      <text x="290" y="118" font-size="8" fill="#546e7a">Trabajador</text>
+
+      <!-- Dashboard → Proyecto -->
+      <line x1="360" y1="67" x2="438" y2="67" stroke="#546e7a" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <!-- Dashboard → Nuevo Proyecto -->
+      <line x1="295" y1="95" x2="295" y2="153" stroke="#546e7a" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <!-- Dashboard → Reportes -->
+      <line x1="360" y1="80" x2="438" y2="168" stroke="#546e7a" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <!-- Proyecto → Reportes -->
+      <line x1="505" y1="95" x2="505" y2="153" stroke="#546e7a" stroke-width="1.8" marker-end="url(#arr)"/>
+
+      <!-- Leyenda -->
+      <line x1="30" y1="230" x2="60" y2="230" stroke="#546e7a" stroke-width="1.8"/>
+      <text x="65" y="234" font-size="8.5" fill="#546e7a">Navegación directa</text>
+      <line x1="200" y1="230" x2="230" y2="230" stroke="#546e7a" stroke-width="1.8" stroke-dasharray="4,3"/>
+      <text x="235" y="234" font-size="8.5" fill="#546e7a">Acceso por rol (Trabajador)</text>
+    </svg>
+    <div class="fig-caption">Figura 1. Flujo de navegación entre pantallas del sistema</div>
+  </div>
+
+  <!-- SECCIÓN 4 -->
+  <h2 class="sec">4. Diseño de la API REST</h2>
+
+  <h3 class="sub">4.1 Convenciones Generales</h3>
+  <table class="data">
+    <thead>
+      <tr><th>Convención</th><th>Detalle</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Formato de datos</td><td>JSON en todas las peticiones y respuestas (Content-Type: application/json)</td></tr>
+      <tr><td>Autenticación</td><td>Bearer token en el header <code>Authorization: Bearer {token}</code></td></tr>
+      <tr><td>Métodos HTTP</td><td>GET (consultar), POST (crear), PUT (actualizar completo), PATCH (actualizar parcial), DELETE (eliminar)</td></tr>
+      <tr><td>Respuesta exitosa</td><td><code>{"success": true, "data": {...}}</code></td></tr>
+      <tr><td>Respuesta de error</td><td><code>{"success": false, "error": "mensaje de error"}</code></td></tr>
+      <tr><td>Códigos HTTP</td><td>200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub">4.2 Endpoints de la API</h3>
+
+  <div class="endpoint-group">Proyectos</div>
+  <table class="data">
+    <thead>
+      <tr><th>Método</th><th>Endpoint</th><th>Descripción</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="method-get">GET</td><td>/api/proyectos.php</td><td>Listar todos los proyectos</td></tr>
+      <tr><td class="method-get">GET</td><td>/api/proyectos.php?id={id}</td><td>Obtener proyecto por ID</td></tr>
+      <tr><td class="method-post">POST</td><td>/api/proyectos.php</td><td>Crear nuevo proyecto</td></tr>
+      <tr><td class="method-put">PUT</td><td>/api/proyectos.php?id={id}</td><td>Actualizar proyecto completo</td></tr>
+      <tr><td class="method-patch">PATCH</td><td>/api/proyectos.php?id={id}</td><td>Cambiar estado del proyecto</td></tr>
+      <tr><td class="method-delete">DELETE</td><td>/api/proyectos.php?id={id}</td><td>Eliminar proyecto</td></tr>
+    </tbody>
+  </table>
+
+  <div class="endpoint-group">Fases</div>
+  <table class="data">
+    <thead>
+      <tr><th>Método</th><th>Endpoint</th><th>Descripción</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="method-get">GET</td><td>/api/fases.php?proyecto_id={id}</td><td>Listar fases de un proyecto</td></tr>
+      <tr><td class="method-post">POST</td><td>/api/fases.php</td><td>Crear nueva fase</td></tr>
+      <tr><td class="method-put">PUT</td><td>/api/fases.php?id={id}</td><td>Actualizar datos de una fase</td></tr>
+    </tbody>
+  </table>
+
+  <div class="endpoint-group">Actividades</div>
+  <table class="data">
+    <thead>
+      <tr><th>Método</th><th>Endpoint</th><th>Descripción</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="method-get">GET</td><td>/api/actividades.php?fase_id={id}</td><td>Listar actividades de una fase</td></tr>
+      <tr><td class="method-post">POST</td><td>/api/actividades.php</td><td>Crear nueva actividad</td></tr>
+      <tr><td class="method-patch">PATCH</td><td>/api/actividades.php?id={id}</td><td>Cambiar estado de una actividad</td></tr>
+    </tbody>
+  </table>
+
+  <div class="endpoint-group">Usuarios y Alertas</div>
+  <table class="data">
+    <thead>
+      <tr><th>Método</th><th>Endpoint</th><th>Descripción</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="method-get">GET</td><td>/api/usuarios.php</td><td>Listar todos los usuarios del sistema</td></tr>
+      <tr><td class="method-post">POST</td><td>/api/usuarios.php</td><td>Crear nuevo usuario</td></tr>
+      <tr><td class="method-get">GET</td><td>/api/alertas.php</td><td>Consultar historial de alertas enviadas</td></tr>
+      <tr><td class="method-post">POST</td><td>/api/alertas.php</td><td>Registrar una nueva alerta</td></tr>
+    </tbody>
+  </table>
+
+  <!-- SECCIÓN 5 -->
+  <h2 class="sec">5. Próximos Pasos — Semana 6</h2>
+  <ul>
+    <li>Verificar la creación de todas las tablas en Supabase y sus relaciones mediante la interfaz de administración.</li>
+    <li>Generar el archivo <code>database/schema.sql</code> con el script completo de creación del esquema.</li>
+    <li>Definir las validaciones de datos que aplicará el backend PHP antes de interactuar con Supabase.</li>
+    <li>Documentar el modelo de roles y permisos del sistema (Admin, Supervisor, Trabajador).</li>
+  </ul>
+
+  <!-- FIRMAS -->
+  <div class="sig-section">
+    <div class="sig-row">
+      <div class="sig-block">
+        <div class="sig-line">
+          <div class="sig-name">María Camila Espinosa Flores</div>
+          <div class="sig-role">Secretaria Administrativa — Practicante<br>R.E Amueblamiento de Espacios S.A.S.</div>
+        </div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line">
+          <div class="sig-name">Ricardo Espinosa</div>
+          <div class="sig-role">Supervisor de Obra<br>R.E Amueblamiento de Espacios S.A.S.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">María Camila Espinosa Flores — Práctica Profesional 2026</div>
+
+</body>
+</html>

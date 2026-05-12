@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planmejora — Proyecto</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="dashboard.html" class="back-link">← Volver</a>
+      <span id="navNombreProyecto" class="nav-title">Cargando...</span>
+    </div>
+    <div class="nav-right">
+      <span id="navUsuario"></span>
+      <button class="btn btn-sm btn-outline" onclick="cerrarSesion()">Salir</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div id="loadingMsg" class="loading-msg">Cargando proyecto...</div>
+    <div id="errorMsg"   class="alert alert-error hidden"></div>
+    <div id="contenido"  class="hidden">
+
+      <!-- Info del proyecto -->
+      <div class="project-info-bar">
+        <div class="info-item"><span class="info-label">Cliente</span><span id="infoCliente"></span></div>
+        <div class="info-item"><span class="info-label">Inicio</span><span id="infoInicio"></span></div>
+        <div class="info-item"><span class="info-label">Entrega estimada</span><span id="infoFin"></span></div>
+        <div class="info-item"><span class="info-label">Estado</span><span id="infoEstado"></span></div>
+      </div>
+
+      <!-- Avance general -->
+      <div class="avance-bar-section">
+        <div class="progress-label">
+          <span>Avance general del proyecto</span>
+          <span id="avancePct" class="avance-pct">0%</span>
+        </div>
+        <div class="progress-bar progress-bar-lg">
+          <div id="avanceFill" class="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="avance-stats" id="avanceStats"></div>
+      </div>
+
+      <!-- Fases -->
+      <div id="fasesContainer"></div>
+    </div>
+  </main>
+
+  <!-- Modal cambio de estado -->
+  <div id="modalEstado" class="modal-overlay hidden">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3>Actualizar actividad</h3>
+        <button class="modal-close" onclick="cerrarModalEstado()">✕</button>
+      </div>
+      <div id="modalActNombre" class="modal-act-nombre"></div>
+      <div class="form-group" style="margin-top:14px">
+        <label>Nuevo estado</label>
+        <select id="nuevoEstado">
+          <option value="pendiente">⏳ Pendiente</option>
+          <option value="en_progreso">🔄 En progreso</option>
+          <option value="completada">✅ Completada</option>
+          <option value="retrasada">⚠ Retrasada</option>
+        </select>
+      </div>
+      <div id="modalEstadoError" class="alert alert-error hidden"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModalEstado()">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarEstado()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = '../backend/api';
+    const usuario    = JSON.parse(sessionStorage.getItem('usuario') ?? 'null');
+    const proyectoId = sessionStorage.getItem('proyectoId');
+
+    if (!usuario)    window.location.href = 'index.html';
+    if (!proyectoId) window.location.href = 'dashboard.html';
+
+    document.getElementById('navUsuario').textContent = `${usuario.nombre} (${usuario.rol})`;
+
+    let actividadSeleccionada = null;
+
+    function cerrarSesion() {
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    }
+
+    // ── Cargar proyecto ───────────────────────────────────────────
+    async function cargarProyecto() {
+      try {
+        const res  = await fetch(`${API}/proyectos.php?id=${proyectoId}`);
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+        renderProyecto(json.data);
+      } catch (err) {
+        document.getElementById('loadingMsg').style.display = 'none';
+        const errEl = document.getElementById('errorMsg');
+        errEl.textContent = 'Error al cargar el proyecto: ' + err.message;
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    function renderProyecto(p) {
+      document.getElementById('loadingMsg').style.display = 'none';
+      document.getElementById('contenido').classList.remove('hidden');
+      document.getElementById('navNombreProyecto').textContent = p.nombre;
+      document.getElementById('infoCliente').textContent = p.cliente;
+      document.getElementById('infoInicio').textContent  = formatFecha(p.fecha_inicio);
+      document.getElementById('infoFin').textContent     = formatFecha(p.fecha_fin_estimada);
+      document.getElementById('infoEstado').innerHTML    = badgeEstadoProyecto(p.estado);
+
+      // Calcular avance total
+      let total = 0, completadas = 0, retrasadas = 0, enProgreso = 0;
+      (p.fases ?? []).forEach(f => {
+        (f.actividades ?? []).forEach(a => {
+          total++;
+          if (a.estado === 'completada') completadas++;
+          if (a.estado === 'retrasada')  retrasadas++;
+          if (a.estado === 'en_progreso') enProgreso++;
+        });
+      });
+      const pct = total ? Math.round((completadas / total) * 100) : 0;
+      document.getElementById('avancePct').textContent = `${pct}%`;
+      document.getElementById('avanceFill').style.width = `${pct}%`;
+      document.getElementById('avanceStats').innerHTML =
+        `<span>✅ ${completadas} completadas</span>` +
+        `<span>🔄 ${enProgreso} en progreso</span>` +
+        (retrasadas ? `<span class="text-danger">⚠ ${retrasadas} retrasadas</span>` : '') +
+        `<span class="text-muted">Total: ${total}</span>`;
+
+      // Renderizar fases
+      const fasesCont = document.getElementById('fasesContainer');
+      fasesCont.innerHTML = (p.fases ?? []).map(renderFase).join('');
+    }
+
+    function renderFase(fase) {
+      const acts = fase.actividades ?? [];
+      const total = acts.length;
+      const comp  = acts.filter(a => a.estado === 'completada').length;
+      const pct   = total ? Math.round((comp / total) * 100) : 0;
+      const nombre = fase.orden === 1 ? '🏗 Fase 1 — Obra Blanca' : '🪵 Fase 2 — Amueblamiento';
+
+      const filas = acts.map(a => {
+        const puedeCambiar = ['admin', 'supervisor', 'trabajador'].includes(usuario.rol);
+        const btnCambiar = puedeCambiar
+          ? `<button class="btn-act" onclick="abrirModalEstado(${a.id}, '${escapar(a.nombre)}', '${a.estado}')">Cambiar</button>`
+          : '';
+        return `
+          <tr class="act-row act-${a.estado}">
+            <td class="act-orden">${a.orden}</td>
+            <td class="act-icono">${iconoEstado(a.estado)}</td>
+            <td class="act-nombre">${a.nombre}</td>
+            <td class="act-estado">${badgeEstadoAct(a.estado)}</td>
+            <td class="act-fecha">${a.fecha_estimada ? formatFecha(a.fecha_estimada) : '—'}</td>
+            <td class="act-fecha">${a.fecha_completada ? formatFecha(a.fecha_completada) : '—'}</td>
+            <td>${btnCambiar}</td>
+          </tr>`;
+      }).join('');
+
+      return `
+        <div class="fase-section">
+          <div class="fase-header">
+            <div>
+              <div class="fase-titulo">${nombre}</div>
+              <div class="text-muted">${comp}/${total} actividades completadas</div>
+            </div>
+            <div class="fase-pct">${pct}%</div>
+          </div>
+          <div class="progress-bar" style="margin:0 0 12px">
+            <div class="progress-fill" style="width:${pct}%;background:${fase.orden===1?'#2472a4':'#1a6b3a'}"></div>
+          </div>
+          <div class="table-responsive">
+            <table class="act-table">
+              <thead>
+                <tr>
+                  <th>#</th><th></th><th>Actividad</th><th>Estado</th>
+                  <th>Fecha estimada</th><th>Fecha completada</th><th></th>
+                </tr>
+              </thead>
+              <tbody>${filas}</tbody>
+            </table>
+          </div>
+        </div>`;
+    }
+
+    // ── Modal cambio de estado ────────────────────────────────────
+    function abrirModalEstado(id, nombre, estadoActual) {
+      actividadSeleccionada = id;
+      document.getElementById('modalActNombre').textContent = nombre;
+      document.getElementById('nuevoEstado').value = estadoActual;
+      document.getElementById('modalEstadoError').classList.add('hidden');
+      document.getElementById('modalEstado').classList.remove('hidden');
+    }
+
+    function cerrarModalEstado() {
+      document.getElementById('modalEstado').classList.add('hidden');
+      actividadSeleccionada = null;
+    }
+
+    async function guardarEstado() {
+      if (!actividadSeleccionada) return;
+      const estado = document.getElementById('nuevoEstado').value;
+      const errEl  = document.getElementById('modalEstadoError');
+      errEl.classList.add('hidden');
+
+      try {
+        const res  = await fetch(`${API}/actividades.php?id=${actividadSeleccionada}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ estado }),
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+        cerrarModalEstado();
+        cargarProyecto();
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    // ── Utilidades ────────────────────────────────────────────────
+    function iconoEstado(e) {
+      return { pendiente:'⏳', en_progreso:'🔄', completada:'✅', retrasada:'⚠' }[e] ?? '—';
+    }
+    function badgeEstadoAct(e) {
+      const cls = { pendiente:'badge-gray', en_progreso:'badge-orange', completada:'badge-green', retrasada:'badge-red' }[e] ?? '';
+      const txt = { pendiente:'Pendiente', en_progreso:'En progreso', completada:'Completada', retrasada:'Retrasada' }[e] ?? e;
+      return `<span class="badge ${cls}">${txt}</span>`;
+    }
+    function badgeEstadoProyecto(e) {
+      const cls = { activo:'badge-green', pausado:'badge-yellow', completado:'badge-blue' }[e] ?? '';
+      return `<span class="badge ${cls}">${e.charAt(0).toUpperCase()+e.slice(1)}</span>`;
+    }
+    function formatFecha(iso) {
+      if (!iso) return '—';
+      const [y, m, d] = iso.split('-');
+      return `${d}/${m}/${y}`;
+    }
+    function escapar(s) {
+      return s.replace(/'/g, "\\'");
+    }
+
+    cargarProyecto();
+  </script>
+</body>
+</html>

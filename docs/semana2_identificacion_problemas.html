@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe Semana 2 — Identificación de Problemas</title>
+<style>
+  @page { size: A4; margin: 1.8cm 2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #1a1a2e; background: #fff; max-width: 820px; margin: 0 auto; padding: 24px; }
+  .page-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1a3a5c; padding-bottom: 6px; margin-bottom: 18px; font-size: 8.5pt; color: #1a3a5c; }
+  .report-title { text-align: center; margin: 22px 0 18px; }
+  .report-title h1 { font-size: 22pt; font-weight: 900; letter-spacing: 1px; color: #1a1a2e; }
+  .report-title h2 { font-size: 12pt; color: #2472a4; font-weight: 600; margin-top: 4px; }
+  .report-title h3 { font-size: 11pt; font-weight: 400; margin-top: 3px; color: #2c3e50; }
+  .info-table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+  .info-table .header-row td { background: #1a3a5c; color: #fff; text-align: center; font-size: 12pt; font-weight: 700; padding: 10px; }
+  .info-table td { padding: 7px 12px; border: 1px solid #b0bec5; font-size: 10.5pt; }
+  .info-table td:first-child { background: #eaf0f6; font-weight: 700; width: 38%; }
+  h2.sec { color: #1a3a5c; font-size: 13.5pt; border-bottom: 2.5px solid #2472a4; padding-bottom: 4px; margin: 26px 0 10px; }
+  h3.sub { color: #2472a4; font-size: 11.5pt; margin: 16px 0 7px; }
+  h4.sub2 { color: #2c3e50; font-size: 10.5pt; text-decoration: underline; margin: 12px 0 5px; }
+  p { margin-bottom: 9px; line-height: 1.55; text-align: justify; }
+  ul { margin: 7px 0 7px 22px; }
+  ul li { margin-bottom: 5px; line-height: 1.5; }
+  table.data { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  table.data th { background: #1a3a5c; color: #fff; padding: 8px 10px; text-align: left; }
+  table.data td { padding: 6px 10px; border-bottom: 1px solid #dce3ea; }
+  table.data tr:nth-child(even) td { background: #f4f7fa; }
+  .diagram-box { margin: 20px 0; text-align: center; }
+  .fig-caption { font-style: italic; font-size: 9.5pt; color: #607d8b; margin-top: 7px; }
+  .highlight-box { background: #eaf0f6; border-left: 4px solid #2472a4; padding: 10px 14px; margin: 12px 0; border-radius: 3px; }
+  .sig-section { margin-top: 50px; border-top: 1px solid #b0bec5; padding-top: 20px; }
+  .sig-section h3 { color: #1a3a5c; font-size: 11pt; margin-bottom: 22px; }
+  .sig-row { display: flex; justify-content: space-around; margin-top: 10px; }
+  .sig-block { text-align: center; width: 42%; }
+  .sig-line { border-top: 1.5px solid #1a3a5c; margin-top: 45px; padding-top: 7px; font-size: 10pt; }
+  .sig-name { font-weight: 700; font-size: 10.5pt; }
+  .sig-role { font-size: 9.5pt; color: #607d8b; }
+  .page-footer { text-align: center; font-size: 8.5pt; color: #90a4ae; border-top: 1px solid #dce3ea; margin-top: 30px; padding-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span>Plan de Mejora — R.E Amueblamiento de Espacios S.A.S. | Semana 2</span>
+  <span>María Camila Espinosa Flores — Práctica Profesional 2026</span>
+</div>
+
+<div class="report-title">
+  <h1>INFORME SEMANAL</h1>
+  <h2>Práctica Profesional — Ingeniería de Sistemas</h2>
+  <h3>Semana 2: Identificación de Problemas en el Seguimiento de Obras</h3>
+</div>
+
+<table class="info-table">
+  <tr class="header-row"><td colspan="2">INFORMACIÓN GENERAL</td></tr>
+  <tr><td>Estudiante</td><td>María Camila Espinosa Flores</td></tr>
+  <tr><td>Empresa</td><td>R.E Amueblamiento de Espacios S.A.S.</td></tr>
+  <tr><td>Cargo</td><td>Secretaria Administrativa</td></tr>
+  <tr><td>Ciudad</td><td>Cali, Valle del Cauca</td></tr>
+  <tr><td>Período</td><td>Semana 2 (16 de Marzo – 20 de Marzo de 2026)</td></tr>
+  <tr><td>Docente práctica</td><td>Por asignar</td></tr>
+</table>
+
+<h2 class="sec">1. Objetivos de la Semana</h2>
+<p>Con base en los hallazgos del diagnóstico de la semana 1, la semana 2 estuvo orientada a profundizar el análisis de las dificultades operativas que enfrenta R.E Amueblamiento de Espacios S.A.S. en el seguimiento de sus proyectos. Los objetivos específicos fueron:</p>
+<ul>
+  <li>Realizar entrevistas semiestructuradas con el supervisor y los trabajadores de obra.</li>
+  <li>Clasificar y priorizar los problemas identificados según su impacto en el proceso.</li>
+  <li>Construir el árbol del problema con causas y efectos.</li>
+  <li>Definir los requerimientos preliminares del sistema de monitoreo web.</li>
+</ul>
+
+<h2 class="sec">2. Levantamiento de Información</h2>
+
+<h3 class="sub">2.1. Entrevista con el supervisor Ricardo Espinosa</h3>
+<p>Se realizó una entrevista con el supervisor de obra, quien es el responsable directo de la coordinación de todos los proyectos activos. Los hallazgos más relevantes fueron:</p>
+<ul>
+  <li>El supervisor atiende simultáneamente entre 2 y 4 proyectos en etapas distintas, lo que dificulta recordar el estado exacto de cada actividad sin consultar conversaciones previas de WhatsApp.</li>
+  <li>No existe ningún mecanismo para registrar la fecha en que se completó una actividad ni quién la ejecutó.</li>
+  <li>Los retrasos se detectan únicamente cuando el supervisor visita la obra físicamente o cuando un trabajador lo comunica de forma espontánea, lo cual puede ocurrir días después del evento.</li>
+  <li>La empresa ha experimentado situaciones en las que actividades dependientes comenzaron antes de que su predecesora estuviera terminada, generando retrabajo y costos adicionales.</li>
+</ul>
+
+<h3 class="sub">2.2. Consulta con empleados de obra</h3>
+<p>Se realizó una consulta informal con dos trabajadores de planta. Sus observaciones principales fueron:</p>
+<ul>
+  <li>Reciben instrucciones verbales o por WhatsApp, pero no tienen claridad sobre el orden exacto de las actividades ni las fechas estimadas de entrega.</li>
+  <li>No disponen de ningún medio para reportar su avance de forma estructurada.</li>
+  <li>Han recibido instrucciones contradictorias en más de una ocasión por olvido o confusión del supervisor sobre el estado del proyecto.</li>
+</ul>
+
+<h3 class="sub">2.3. Revisión de registros existentes</h3>
+<p>Se revisaron los registros disponibles en la empresa. Se constató que:</p>
+<ul>
+  <li>No existen documentos físicos ni digitales que describan el estado histórico de ningún proyecto.</li>
+  <li>Las fotografías de avance están dispersas en grupos de WhatsApp sin ningún orden que permita vincularlas a una actividad o fase específica.</li>
+  <li>No hay registro de los tiempos reales de ejecución de ninguna actividad, lo que impide comparar lo planeado vs. lo ejecutado.</li>
+</ul>
+
+<h2 class="sec">3. Problemas Identificados y Clasificados</h2>
+
+<h3 class="sub">3.1. Tabla de problemas priorizados</h3>
+<table class="data">
+  <tr><th>#</th><th>Problema</th><th>Categoría</th><th>Impacto</th><th>Frecuencia</th></tr>
+  <tr><td>P1</td><td>No existe registro del estado de actividades por proyecto</td><td>Trazabilidad</td><td>Alto</td><td>Siempre</td></tr>
+  <tr><td>P2</td><td>Los retrasos se detectan tarde o no se detectan</td><td>Control</td><td>Alto</td><td>Frecuente</td></tr>
+  <tr><td>P3</td><td>No hay visibilidad comparativa entre proyectos simultáneos</td><td>Gestión</td><td>Alto</td><td>Siempre</td></tr>
+  <tr><td>P4</td><td>Las instrucciones se pierden en conversaciones de WhatsApp</td><td>Comunicación</td><td>Medio</td><td>Frecuente</td></tr>
+  <tr><td>P5</td><td>No existe registro histórico de actividades completadas</td><td>Trazabilidad</td><td>Alto</td><td>Siempre</td></tr>
+  <tr><td>P6</td><td>No hay mecanismo de alerta automática ante retrasos</td><td>Control</td><td>Alto</td><td>Siempre</td></tr>
+  <tr><td>P7</td><td>El supervisor depende de su memoria para gestionar proyectos</td><td>Gestión</td><td>Alto</td><td>Siempre</td></tr>
+  <tr><td>P8</td><td>No se documentan las fechas reales de ejecución</td><td>Registro</td><td>Medio</td><td>Siempre</td></tr>
+</table>
+
+<h3 class="sub">3.2. Árbol del Problema</h3>
+<div class="diagram-box">
+<svg viewBox="0 0 820 490" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Calibri, Arial, sans-serif">
+  <!-- Título CAUSAS -->
+  <text x="410" y="18" text-anchor="middle" font-size="12" font-weight="bold" fill="#2472a4">CAUSAS</text>
+
+  <!-- Cajas de causas -->
+  <rect x="8" y="24" width="185" height="68" rx="5" fill="#d6eaf8" stroke="#2472a4" stroke-width="1.5"/>
+  <text x="100" y="44" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1a3a5c">Seguimiento</text>
+  <text x="100" y="57" text-anchor="middle" font-size="9.5" fill="#1a3a5c">completamente verbal</text>
+  <text x="100" y="70" text-anchor="middle" font-size="9.5" fill="#1a3a5c">e informal</text>
+  <text x="100" y="83" text-anchor="middle" font-size="8.5" fill="#2472a4" font-style="italic">(C1)</text>
+
+  <rect x="208" y="24" width="185" height="68" rx="5" fill="#d6eaf8" stroke="#2472a4" stroke-width="1.5"/>
+  <text x="300" y="44" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1a3a5c">Ausencia de</text>
+  <text x="300" y="57" text-anchor="middle" font-size="9.5" fill="#1a3a5c">herramientas digitales</text>
+  <text x="300" y="70" text-anchor="middle" font-size="9.5" fill="#1a3a5c">especializadas</text>
+  <text x="300" y="83" text-anchor="middle" font-size="8.5" fill="#2472a4" font-style="italic">(C2)</text>
+
+  <rect x="428" y="24" width="185" height="68" rx="5" fill="#d6eaf8" stroke="#2472a4" stroke-width="1.5"/>
+  <text x="520" y="44" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1a3a5c">Sin fechas estimadas</text>
+  <text x="520" y="57" text-anchor="middle" font-size="9.5" fill="#1a3a5c">definidas por</text>
+  <text x="520" y="70" text-anchor="middle" font-size="9.5" fill="#1a3a5c">actividad</text>
+  <text x="520" y="83" text-anchor="middle" font-size="8.5" fill="#2472a4" font-style="italic">(C3)</text>
+
+  <rect x="628" y="24" width="185" height="68" rx="5" fill="#d6eaf8" stroke="#2472a4" stroke-width="1.5"/>
+  <text x="720" y="44" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1a3a5c">Sin mecanismo</text>
+  <text x="720" y="57" text-anchor="middle" font-size="9.5" fill="#1a3a5c">de alerta ante</text>
+  <text x="720" y="70" text-anchor="middle" font-size="9.5" fill="#1a3a5c">retrasos</text>
+  <text x="720" y="83" text-anchor="middle" font-size="8.5" fill="#2472a4" font-style="italic">(C4)</text>
+
+  <!-- Líneas causas → problema -->
+  <line x1="100" y1="92" x2="350" y2="195" stroke="#2472a4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="300" y1="92" x2="380" y2="195" stroke="#2472a4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="520" y1="92" x2="440" y2="195" stroke="#2472a4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="720" y1="92" x2="470" y2="195" stroke="#2472a4" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Problema central -->
+  <rect x="110" y="195" width="600" height="80" rx="7" fill="#c0392b" stroke="#922b21" stroke-width="2"/>
+  <text x="410" y="218" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">⚠  PROBLEMA CENTRAL</text>
+  <text x="410" y="234" text-anchor="middle" font-size="10" fill="#fff">Imposible monitorear de forma confiable el avance</text>
+  <text x="410" y="249" text-anchor="middle" font-size="10" fill="#fff">de los proyectos de remodelación de forma simultánea</text>
+  <text x="410" y="264" text-anchor="middle" font-size="9" fill="#ffd" font-style="italic">— Gestión informal sin trazabilidad ni alertas —</text>
+
+  <!-- Líneas problema → efectos -->
+  <line x1="350" y1="275" x2="100" y2="365" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="380" y1="275" x2="300" y2="365" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="440" y1="275" x2="520" y2="365" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="470" y1="275" x2="720" y2="365" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- Título EFECTOS -->
+  <text x="410" y="358" text-anchor="middle" font-size="12" font-weight="bold" fill="#e67e22">EFECTOS</text>
+
+  <!-- Cajas de efectos -->
+  <rect x="8" y="365" width="185" height="68" rx="5" fill="#fef5e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="100" y="385" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#7d4400">Retrasos no</text>
+  <text x="100" y="398" text-anchor="middle" font-size="9.5" fill="#7d4400">detectados</text>
+  <text x="100" y="411" text-anchor="middle" font-size="9.5" fill="#7d4400">a tiempo</text>
+  <text x="100" y="424" text-anchor="middle" font-size="8.5" fill="#e67e22" font-style="italic">(E1)</text>
+
+  <rect x="208" y="365" width="185" height="68" rx="5" fill="#fef5e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="300" y="385" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#7d4400">Retrabajo y</text>
+  <text x="300" y="398" text-anchor="middle" font-size="9.5" fill="#7d4400">costos</text>
+  <text x="300" y="411" text-anchor="middle" font-size="9.5" fill="#7d4400">adicionales</text>
+  <text x="300" y="424" text-anchor="middle" font-size="8.5" fill="#e67e22" font-style="italic">(E2)</text>
+
+  <rect x="428" y="365" width="185" height="68" rx="5" fill="#fef5e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="520" y="385" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#7d4400">Pérdida de</text>
+  <text x="520" y="398" text-anchor="middle" font-size="9.5" fill="#7d4400">información</text>
+  <text x="520" y="411" text-anchor="middle" font-size="9.5" fill="#7d4400">crítica</text>
+  <text x="520" y="424" text-anchor="middle" font-size="8.5" fill="#e67e22" font-style="italic">(E3)</text>
+
+  <rect x="628" y="365" width="185" height="68" rx="5" fill="#fef5e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="720" y="385" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#7d4400">Baja credibilidad</text>
+  <text x="720" y="398" text-anchor="middle" font-size="9.5" fill="#7d4400">ante los</text>
+  <text x="720" y="411" text-anchor="middle" font-size="9.5" fill="#7d4400">clientes</text>
+  <text x="720" y="424" text-anchor="middle" font-size="8.5" fill="#e67e22" font-style="italic">(E4)</text>
+
+  <!-- Marcadores de flecha -->
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2472a4"/>
+    </marker>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e67e22"/>
+    </marker>
+  </defs>
+</svg>
+<p class="fig-caption">Figura 1. Árbol del problema — R.E Amueblamiento de Espacios S.A.S.</p>
+</div>
+
+<h2 class="sec">4. Requerimientos Preliminares del Sistema</h2>
+
+<h3 class="sub">4.1. Requerimientos funcionales</h3>
+<table class="data">
+  <tr><th>ID</th><th>Requerimiento</th><th>Problema que resuelve</th></tr>
+  <tr><td>RF01</td><td>Registrar proyectos con nombre, cliente, dirección y fechas</td><td>P3, P7</td></tr>
+  <tr><td>RF02</td><td>Registrar fases y actividades con orden, estado y fecha estimada</td><td>P1, P5, P8</td></tr>
+  <tr><td>RF03</td><td>Cambiar estado de actividad (pendiente → en progreso → completada)</td><td>P1, P4</td></tr>
+  <tr><td>RF04</td><td>Detectar automáticamente actividades con fecha estimada vencida</td><td>P2, P6</td></tr>
+  <tr><td>RF05</td><td>Enviar alerta SMS al supervisor cuando se detecta un retraso</td><td>P6</td></tr>
+  <tr><td>RF06</td><td>Visualizar el estado de todos los proyectos activos en un dashboard</td><td>P3</td></tr>
+  <tr><td>RF07</td><td>Gestionar usuarios con roles (admin, supervisor, trabajador)</td><td>P4</td></tr>
+  <tr><td>RF08</td><td>Generar reportes de avance por proyecto</td><td>Trazabilidad general</td></tr>
+</table>
+
+<h3 class="sub">4.2. Requerimientos no funcionales</h3>
+<table class="data">
+  <tr><th>ID</th><th>Requerimiento</th></tr>
+  <tr><td>RNF01</td><td>Interfaz responsiva (accesible desde móvil y escritorio)</td></tr>
+  <tr><td>RNF02</td><td>Disponibilidad 24/7</td></tr>
+  <tr><td>RNF03</td><td>Almacenamiento seguro en la nube (Supabase)</td></tr>
+  <tr><td>RNF04</td><td>Tiempo de respuesta menor a 3 segundos por operación</td></tr>
+</table>
+
+<h2 class="sec">5. Próximos Pasos — Semana 3</h2>
+<p>La semana 3 estará dedicada al análisis detallado de las fases de los proyectos de remodelación, lo que implica:</p>
+<ul>
+  <li>Documentar en detalle las actividades de cada fase (Obra Blanca y Amueblamiento).</li>
+  <li>Establecer las dependencias entre actividades.</li>
+  <li>Construir el modelo conceptual de datos del sistema.</li>
+  <li>Identificar los casos de uso principales del sistema.</li>
+</ul>
+
+<!-- FIRMAS -->
+<div class="sig-section">
+  <div class="sig-row">
+    <div class="sig-block">
+      <div class="sig-line">
+        <div class="sig-name">María Camila Espinosa Flores</div>
+        <div class="sig-role">Secretaria Administrativa — Practicante<br>R.E Amueblamiento de Espacios S.A.S.</div>
+      </div>
+    </div>
+    <div class="sig-block">
+      <div class="sig-line">
+        <div class="sig-name">Ricardo Espinosa</div>
+        <div class="sig-role">Supervisor de Obra<br>R.E Amueblamiento de Espacios S.A.S.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">María Camila Espinosa Flores — Práctica Profesional 2026</div>
+</body>
+</html>

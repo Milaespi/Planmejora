@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planmejora — Ingreso</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="login-page">
+
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="logo-icon">🏗</span>
+      <h1>R.E Amueblamiento</h1>
+      <p>Sistema de Monitoreo de Obras</p>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="nombre">Usuario</label>
+        <input type="text" id="nombre" placeholder="Tu nombre completo" required autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="rol">Rol</label>
+        <select id="rol" required>
+          <option value="">Selecciona tu rol...</option>
+          <option value="admin">Administrador</option>
+          <option value="supervisor">Supervisor</option>
+          <option value="trabajador">Trabajador</option>
+        </select>
+      </div>
+      <div id="loginError" class="alert alert-error hidden"></div>
+      <button type="submit" class="btn btn-primary btn-block" id="btnLogin">
+        Ingresar al sistema
+      </button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const rol    = document.getElementById('rol').value;
+      const errEl  = document.getElementById('loginError');
+
+      errEl.classList.add('hidden');
+      if (!nombre || !rol) {
+        errEl.textContent = 'Por favor completa todos los campos.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res  = await fetch(`../backend/api/usuarios.php`);
+        const json = await res.json();
+        const usuarios = json.data ?? [];
+
+        const usuario = usuarios.find(
+          u => u.nombre.toLowerCase() === nombre.toLowerCase() && u.rol === rol
+        );
+
+        if (!usuario) {
+          errEl.textContent = 'Usuario o rol incorrecto. Contacta al administrador.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        sessionStorage.setItem('usuario', JSON.stringify(usuario));
+
+        if (rol === 'trabajador') {
+          window.location.href = 'proyecto.html';
+        } else {
+          window.location.href = 'dashboard.html';
+        }
+      } catch {
+        errEl.textContent = 'Error de conexión. Intenta de nuevo.';
+        errEl.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

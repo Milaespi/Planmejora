@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe Semana 6 — Formatos de Seguimiento</title>
+<style>
+  @page { size: A4; margin: 1.8cm 2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #1a1a2e; background: #fff; max-width: 820px; margin: 0 auto; padding: 24px; }
+  .page-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1a3a5c; padding-bottom: 6px; margin-bottom: 18px; font-size: 8.5pt; color: #1a3a5c; }
+  .report-title { text-align: center; margin: 22px 0 18px; }
+  .report-title h1 { font-size: 22pt; font-weight: 900; letter-spacing: 1px; color: #1a1a2e; }
+  .report-title h2 { font-size: 12pt; color: #2472a4; font-weight: 600; margin-top: 4px; }
+  .report-title h3 { font-size: 11pt; font-weight: 400; margin-top: 3px; color: #2c3e50; }
+  .info-table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+  .info-table .hr td { background: #1a3a5c; color: #fff; text-align: center; font-size: 12pt; font-weight: 700; padding: 10px; }
+  .info-table td { padding: 7px 12px; border: 1px solid #b0bec5; font-size: 10.5pt; }
+  .info-table td:first-child { background: #eaf0f6; font-weight: 700; width: 38%; }
+  h2.sec { color: #1a3a5c; font-size: 13.5pt; border-bottom: 2.5px solid #2472a4; padding-bottom: 4px; margin: 26px 0 10px; }
+  h3.sub { color: #2472a4; font-size: 11.5pt; margin: 16px 0 7px; }
+  p { margin-bottom: 9px; line-height: 1.55; text-align: justify; }
+  ul { margin: 7px 0 7px 22px; }
+  ul li { margin-bottom: 5px; line-height: 1.5; }
+  table.data { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  table.data th { background: #1a3a5c; color: #fff; padding: 8px 10px; text-align: left; }
+  table.data td { padding: 6px 10px; border-bottom: 1px solid #dce3ea; }
+  table.data tr:nth-child(even) td { background: #f4f7fa; }
+  table.data td:nth-child(3), table.data td:nth-child(4) { text-align: center; }
+  .diagram-box { margin: 20px 0; text-align: center; }
+  .fig-caption { font-style: italic; font-size: 9.5pt; color: #607d8b; margin-top: 7px; }
+  .code-block { background: #1e1e2e; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 9pt; padding: 14px; border-radius: 5px; margin: 12px 0; white-space: pre; }
+  .sig-section { margin-top: 50px; border-top: 1px solid #b0bec5; padding-top: 20px; }
+  .sig-row { display: flex; justify-content: space-around; }
+  .sig-block { text-align: center; width: 42%; }
+  .sig-line { border-top: 1.5px solid #1a3a5c; margin-top: 45px; padding-top: 7px; font-size: 10pt; }
+  .sig-name { font-weight: 700; font-size: 10.5pt; }
+  .sig-role { font-size: 9.5pt; color: #607d8b; }
+  .page-footer { text-align: center; font-size: 8.5pt; color: #90a4ae; border-top: 1px solid #dce3ea; margin-top: 30px; padding-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span>Plan de Mejora — R.E Amueblamiento de Espacios S.A.S. | Semana 6</span>
+  <span>María Camila Espinosa Flores — Práctica Profesional 2026</span>
+</div>
+
+<div class="report-title">
+  <h1>INFORME SEMANAL</h1>
+  <h2>Práctica Profesional — Ingeniería de Sistemas</h2>
+  <h3>Semana 6: Creación de Formatos de Seguimiento y Verificación de Base de Datos</h3>
+</div>
+
+<table class="info-table">
+  <tr class="hr"><td colspan="2">INFORMACIÓN GENERAL</td></tr>
+  <tr><td>Estudiante</td><td>María Camila Espinosa Flores</td></tr>
+  <tr><td>Empresa</td><td>R.E Amueblamiento de Espacios S.A.S.</td></tr>
+  <tr><td>Cargo</td><td>Secretaria Administrativa</td></tr>
+  <tr><td>Ciudad</td><td>Cali, Valle del Cauca</td></tr>
+  <tr><td>Período</td><td>Semana 6 (13 de Abril – 17 de Abril de 2026)</td></tr>
+  <tr><td>Docente práctica</td><td>Por asignar</td></tr>
+</table>
+
+<h2 class="sec">1. Objetivo de la Semana</h2>
+<p>Esta semana estuvo orientada a la formalización de los formatos de seguimiento de proyectos y a la verificación del esquema de base de datos en Supabase. Se generaron los scripts SQL de creación de tablas, se documentaron las validaciones del sistema y se definió el modelo de roles y permisos.</p>
+
+<h2 class="sec">2. Creación de Tablas en Supabase</h2>
+<h3 class="sub">2.1. Script de creación (schema.sql)</h3>
+<p>Se creó el script SQL completo que define la estructura de la base de datos en Supabase (PostgreSQL). Las cinco tablas del sistema fueron creadas y verificadas en el proyecto en la nube.</p>
+<p><strong>URL del proyecto Supabase:</strong> <code>https://wjmijmqrkscejofxioqx.supabase.co</code></p>
+
+<table class="data">
+  <tr><th>Tabla</th><th>Campos</th><th>Estado</th></tr>
+  <tr><td><code>proyectos</code></td><td>8 campos</td><td>✅ Creada y verificada</td></tr>
+  <tr><td><code>fases</code></td><td>6 campos</td><td>✅ Creada y verificada</td></tr>
+  <tr><td><code>actividades</code></td><td>9 campos</td><td>✅ Creada y verificada</td></tr>
+  <tr><td><code>usuarios</code></td><td>5 campos</td><td>✅ Creada y verificada</td></tr>
+  <tr><td><code>alertas</code></td><td>6 campos</td><td>✅ Creada y verificada</td></tr>
+</table>
+
+<h3 class="sub">2.2. Diagrama Entidad-Relación</h3>
+<div class="diagram-box">
+<svg viewBox="0 0 820 420" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Calibri,Arial,sans-serif" font-size="9">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1a3a5c"/></marker>
+  </defs>
+
+  <!-- proyectos -->
+  <rect x="10" y="10" width="160" height="155" rx="5" fill="#eaf3fb" stroke="#2472a4" stroke-width="1.5"/>
+  <rect x="10" y="10" width="160" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="90" y="25" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">proyectos</text>
+  <text x="20" y="50" fill="#1a3a5c">🔑 id BIGSERIAL PK</text>
+  <text x="20" y="65" fill="#2c3e50">  nombre VARCHAR(255)</text>
+  <text x="20" y="80" fill="#2c3e50">  direccion VARCHAR(255)</text>
+  <text x="20" y="95" fill="#2c3e50">  cliente VARCHAR(255)</text>
+  <text x="20" y="110" fill="#2c3e50">  fecha_inicio DATE</text>
+  <text x="20" y="125" fill="#2c3e50">  fecha_fin_estimada DATE</text>
+  <text x="20" y="140" fill="#2c3e50">  estado VARCHAR(20)</text>
+  <text x="20" y="155" fill="#2c3e50">  created_at TIMESTAMPTZ</text>
+
+  <!-- fases -->
+  <rect x="230" y="10" width="160" height="140" rx="5" fill="#eaf3fb" stroke="#2472a4" stroke-width="1.5"/>
+  <rect x="230" y="10" width="160" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="310" y="25" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">fases</text>
+  <text x="240" y="50" fill="#1a3a5c">🔑 id BIGSERIAL PK</text>
+  <text x="240" y="65" fill="#e67e22">🔗 proyecto_id FK</text>
+  <text x="240" y="80" fill="#2c3e50">  nombre VARCHAR(255)</text>
+  <text x="240" y="95" fill="#2c3e50">  tipo VARCHAR(30)</text>
+  <text x="240" y="110" fill="#2c3e50">  orden INT (1 o 2)</text>
+  <text x="240" y="125" fill="#2c3e50">  created_at TIMESTAMPTZ</text>
+
+  <!-- actividades -->
+  <rect x="450" y="10" width="165" height="170" rx="5" fill="#eaf3fb" stroke="#2472a4" stroke-width="1.5"/>
+  <rect x="450" y="10" width="165" height="22" rx="5" fill="#1a3a5c"/>
+  <text x="532" y="25" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">actividades</text>
+  <text x="460" y="50" fill="#1a3a5c">🔑 id BIGSERIAL PK</text>
+  <text x="460" y="65" fill="#e67e22">🔗 fase_id FK</text>
+  <text x="460" y="80" fill="#2c3e50">  nombre VARCHAR(255)</text>
+  <text x="460" y="95" fill="#2c3e50">  descripcion TEXT</text>
+  <text x="460" y="110" fill="#2c3e50">  estado VARCHAR(20)</text>
+  <text x="460" y="125" fill="#2c3e50">  fecha_estimada DATE</text>
+  <text x="460" y="140" fill="#2c3e50">  fecha_completada DATE</text>
+  <text x="460" y="155" fill="#2c3e50">  orden INT</text>
+  <text x="460" y="170" fill="#2c3e50">  created_at TIMESTAMPTZ</text>
+
+  <!-- usuarios -->
+  <rect x="10" y="240" width="160" height="125" rx="5" fill="#f0eafb" stroke="#8e44ad" stroke-width="1.5"/>
+  <rect x="10" y="240" width="160" height="22" rx="5" fill="#6c3483"/>
+  <text x="90" y="255" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">usuarios</text>
+  <text x="20" y="280" fill="#6c3483">🔑 id BIGSERIAL PK</text>
+  <text x="20" y="295" fill="#2c3e50">  nombre VARCHAR(255)</text>
+  <text x="20" y="310" fill="#2c3e50">  telefono VARCHAR(20)</text>
+  <text x="20" y="325" fill="#2c3e50">  rol VARCHAR(20)</text>
+  <text x="20" y="340" fill="#2c3e50">  created_at TIMESTAMPTZ</text>
+
+  <!-- alertas -->
+  <rect x="450" y="240" width="165" height="140" rx="5" fill="#fef0e7" stroke="#e67e22" stroke-width="1.5"/>
+  <rect x="450" y="240" width="165" height="22" rx="5" fill="#b54213"/>
+  <text x="532" y="255" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">alertas</text>
+  <text x="460" y="280" fill="#b54213">🔑 id BIGSERIAL PK</text>
+  <text x="460" y="295" fill="#e67e22">🔗 actividad_id FK</text>
+  <text x="460" y="310" fill="#2c3e50">  mensaje TEXT</text>
+  <text x="460" y="325" fill="#2c3e50">  enviada BOOLEAN</text>
+  <text x="460" y="340" fill="#2c3e50">  fecha_envio TIMESTAMPTZ</text>
+  <text x="460" y="355" fill="#2c3e50">  created_at TIMESTAMPTZ</text>
+
+  <!-- Relaciones -->
+  <!-- proyectos → fases -->
+  <line x1="170" y1="80" x2="230" y2="80" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="180" y="74" font-size="9" fill="#1a3a5c" font-weight="bold">1</text>
+  <text x="210" y="74" font-size="9" fill="#1a3a5c" font-weight="bold">N</text>
+
+  <!-- fases → actividades -->
+  <line x1="390" y1="80" x2="450" y2="80" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="400" y="74" font-size="9" fill="#1a3a5c" font-weight="bold">1</text>
+  <text x="430" y="74" font-size="9" fill="#1a3a5c" font-weight="bold">N</text>
+
+  <!-- actividades → alertas -->
+  <line x1="532" y1="180" x2="532" y2="240" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="538" y="205" font-size="9" fill="#e67e22" font-weight="bold">1</text>
+  <text x="538" y="228" font-size="9" fill="#e67e22" font-weight="bold">N</text>
+
+  <!-- Leyenda -->
+  <rect x="650" y="240" width="160" height="80" rx="5" fill="#f4f7fa" stroke="#b0bec5" stroke-width="1"/>
+  <text x="660" y="258" font-size="9" font-weight="bold" fill="#1a3a5c">Leyenda</text>
+  <text x="660" y="275" font-size="9" fill="#1a3a5c">🔑 Clave primaria (PK)</text>
+  <text x="660" y="290" font-size="9" fill="#e67e22">🔗 Clave foránea (FK)</text>
+  <text x="660" y="308" font-size="9" fill="#1a3a5c">─► Relación 1 a N</text>
+</svg>
+<p class="fig-caption">Figura 1. Diagrama Entidad-Relación — Sistema de monitoreo de proyectos</p>
+</div>
+
+<h2 class="sec">3. Formatos de Seguimiento Definidos</h2>
+<h3 class="sub">3.1. Formato de registro de proyecto</h3>
+<table class="data">
+  <tr><th>Campo</th><th>Tipo</th><th>Obligatorio</th><th>Validación</th></tr>
+  <tr><td>Nombre del proyecto</td><td>Texto</td><td>Sí</td><td>Mínimo 5 caracteres</td></tr>
+  <tr><td>Dirección</td><td>Texto</td><td>Sí</td><td>Mínimo 10 caracteres</td></tr>
+  <tr><td>Nombre del cliente</td><td>Texto</td><td>Sí</td><td>Mínimo 3 caracteres</td></tr>
+  <tr><td>Fecha de inicio</td><td>Fecha</td><td>Sí</td><td>No puede ser pasada</td></tr>
+  <tr><td>Fecha estimada de entrega</td><td>Fecha</td><td>Sí</td><td>Posterior a fecha de inicio</td></tr>
+  <tr><td>Estado inicial</td><td>Selección</td><td>Sí</td><td>Valor por defecto: "activo"</td></tr>
+</table>
+<p>Al crear un proyecto, el sistema genera automáticamente las 2 fases y las 27 actividades estándar con estado "pendiente".</p>
+
+<h3 class="sub">3.2. Formato de seguimiento de actividad</h3>
+<table class="data">
+  <tr><th>Campo</th><th>Descripción</th></tr>
+  <tr><td>Estado nuevo</td><td>pendiente / en_progreso / completada / retrasada</td></tr>
+  <tr><td>Fecha de completado</td><td>Se registra automáticamente si el estado es "completada"</td></tr>
+  <tr><td>Usuario que actualizó</td><td>Trazabilidad del cambio</td></tr>
+</table>
+
+<h3 class="sub">3.3. Diagrama de estados de una actividad</h3>
+<div class="diagram-box">
+<svg viewBox="0 0 820 220" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Calibri,Arial,sans-serif" font-size="9.5">
+  <defs>
+    <marker id="a1" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#607d8b"/></marker>
+    <marker id="a2" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#e67e22"/></marker>
+    <marker id="a3" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#c0392b"/></marker>
+    <marker id="a4" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1a6b3a"/></marker>
+  </defs>
+
+  <!-- Inicio -->
+  <circle cx="40" cy="110" r="14" fill="#1a3a5c"/>
+  <text x="40" y="115" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">★</text>
+  <line x1="54" y1="110" x2="95" y2="110" stroke="#607d8b" stroke-width="1.5" marker-end="url(#a1)"/>
+  <text x="74" y="104" text-anchor="middle" font-size="8" fill="#607d8b">Creación</text>
+
+  <!-- Pendiente -->
+  <rect x="96" y="85" width="110" height="50" rx="25" fill="#ecf0f1" stroke="#95a5a6" stroke-width="1.5"/>
+  <text x="151" y="107" text-anchor="middle" fill="#2c3e50" font-weight="bold">⏳ Pendiente</text>
+
+  <!-- En progreso -->
+  <rect x="310" y="85" width="120" height="50" rx="25" fill="#fef0e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="370" y="107" text-anchor="middle" fill="#b54213" font-weight="bold">🔄 En progreso</text>
+
+  <!-- Completada -->
+  <rect x="545" y="85" width="120" height="50" rx="25" fill="#d5f5e3" stroke="#1a6b3a" stroke-width="1.5"/>
+  <text x="605" y="107" text-anchor="middle" fill="#1a6b3a" font-weight="bold">✅ Completada</text>
+
+  <!-- Retrasada -->
+  <rect x="310" y="165" width="120" height="50" rx="25" fill="#fde8e8" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="370" y="187" text-anchor="middle" fill="#922b21" font-weight="bold">⚠ Retrasada</text>
+
+  <!-- Fin -->
+  <circle cx="760" cy="110" r="14" fill="#1a6b3a"/>
+  <circle cx="760" cy="110" r="9" fill="none" stroke="#fff" stroke-width="2"/>
+
+  <!-- Pendiente → En progreso -->
+  <line x1="206" y1="110" x2="308" y2="110" stroke="#e67e22" stroke-width="1.5" marker-end="url(#a2)"/>
+  <text x="257" y="104" text-anchor="middle" font-size="8" fill="#e67e22">Supervisor inicia</text>
+
+  <!-- En progreso → Completada -->
+  <line x1="430" y1="110" x2="544" y2="110" stroke="#1a6b3a" stroke-width="1.5" marker-end="url(#a4)"/>
+  <text x="487" y="104" text-anchor="middle" font-size="8" fill="#1a6b3a">Se finaliza</text>
+
+  <!-- Completada → Fin -->
+  <line x1="665" y1="110" x2="745" y2="110" stroke="#1a6b3a" stroke-width="1.5" marker-end="url(#a4)"/>
+
+  <!-- Pendiente → Retrasada (curva abajo) -->
+  <path d="M151,135 Q151,190 308,190" stroke="#c0392b" stroke-width="1.5" fill="none" marker-end="url(#a3)"/>
+  <text x="200" y="200" text-anchor="middle" font-size="8" fill="#c0392b">Cron: fecha vencida</text>
+
+  <!-- En progreso → Retrasada -->
+  <line x1="370" y1="135" x2="370" y2="163" stroke="#c0392b" stroke-width="1.5" marker-end="url(#a3)"/>
+  <text x="420" y="155" font-size="8" fill="#c0392b">Cron: vencida</text>
+
+  <!-- Retrasada → En progreso (curva de vuelta) -->
+  <path d="M310,180 Q260,180 260,155 Q260,130 308,120" stroke="#e67e22" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#a2)"/>
+  <text x="240" y="170" font-size="8" fill="#e67e22" text-anchor="middle">Se retoma</text>
+</svg>
+<p class="fig-caption">Figura 2. Diagrama de estados de una actividad</p>
+</div>
+
+<h2 class="sec">4. Modelo de Roles y Permisos</h2>
+<h3 class="sub">4.1. Definición de roles</h3>
+<table class="data">
+  <tr><th>Funcionalidad</th><th style="text-align:center">Admin</th><th style="text-align:center">Supervisor</th><th style="text-align:center">Trabajador</th></tr>
+  <tr><td>Ver dashboard de proyectos</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td><td style="text-align:center">❌</td></tr>
+  <tr><td>Crear / editar proyectos</td><td style="text-align:center">✅</td><td style="text-align:center">❌</td><td style="text-align:center">❌</td></tr>
+  <tr><td>Ver detalle de proyecto</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td></tr>
+  <tr><td>Actualizar estado de actividad</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td></tr>
+  <tr><td>Ver reportes</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td><td style="text-align:center">❌</td></tr>
+  <tr><td>Gestionar usuarios</td><td style="text-align:center">✅</td><td style="text-align:center">❌</td><td style="text-align:center">❌</td></tr>
+  <tr><td>Ver historial de alertas</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td><td style="text-align:center">❌</td></tr>
+</table>
+
+<h3 class="sub">4.2. Flujo de validación de roles en el backend</h3>
+<div class="diagram-box">
+<svg viewBox="0 0 820 200" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Calibri,Arial,sans-serif" font-size="9.5">
+  <defs>
+    <marker id="b1" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1a3a5c"/></marker>
+    <marker id="b2" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#c0392b"/></marker>
+    <marker id="b3" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1a6b3a"/></marker>
+  </defs>
+
+  <!-- Petición -->
+  <rect x="10" y="75" width="110" height="50" rx="6" fill="#1a3a5c"/>
+  <text x="65" y="97" text-anchor="middle" fill="#fff" font-weight="bold">📨 Petición</text>
+  <text x="65" y="112" text-anchor="middle" fill="#ccc" font-size="9">HTTP al backend</text>
+  <line x1="120" y1="100" x2="155" y2="100" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#b1)"/>
+
+  <!-- ¿API Key válida? -->
+  <polygon points="200,70 275,100 200,130 125,100" fill="#f39c12" stroke="#d68910" stroke-width="1.5"/>
+  <text x="200" y="96" text-anchor="middle" fill="#fff" font-weight="bold" font-size="9">¿API Key</text>
+  <text x="200" y="110" text-anchor="middle" fill="#fff" font-weight="bold" font-size="9">válida?</text>
+
+  <!-- No → 401 -->
+  <line x1="200" y1="130" x2="200" y2="170" stroke="#c0392b" stroke-width="1.5" marker-end="url(#b2)"/>
+  <text x="210" y="155" font-size="8.5" fill="#c0392b">No</text>
+  <rect x="140" y="170" width="120" height="30" rx="5" fill="#fde8e8" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="200" y="190" text-anchor="middle" fill="#922b21" font-size="9" font-weight="bold">❌ 401 Unauthorized</text>
+
+  <!-- Sí → Rol -->
+  <line x1="275" y1="100" x2="320" y2="100" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#b1)"/>
+  <text x="296" y="94" font-size="8.5" fill="#1a6b3a" font-weight="bold">Sí</text>
+
+  <!-- ¿Rol tiene permiso? -->
+  <polygon points="380,70 470,100 380,130 290,100" fill="#f39c12" stroke="#d68910" stroke-width="1.5"/>
+  <text x="380" y="96" text-anchor="middle" fill="#fff" font-weight="bold" font-size="9">¿Rol tiene</text>
+  <text x="380" y="110" text-anchor="middle" fill="#fff" font-weight="bold" font-size="9">permiso?</text>
+
+  <!-- No → 403 -->
+  <line x1="380" y1="130" x2="380" y2="170" stroke="#c0392b" stroke-width="1.5" marker-end="url(#b2)"/>
+  <text x="390" y="155" font-size="8.5" fill="#c0392b">No</text>
+  <rect x="320" y="170" width="120" height="30" rx="5" fill="#fde8e8" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="380" y="190" text-anchor="middle" fill="#922b21" font-size="9" font-weight="bold">❌ 403 Forbidden</text>
+
+  <!-- Sí → Supabase -->
+  <line x1="470" y1="100" x2="520" y2="100" stroke="#1a3a5c" stroke-width="1.5" marker-end="url(#b1)"/>
+  <text x="494" y="94" font-size="8.5" fill="#1a6b3a" font-weight="bold">Sí</text>
+
+  <!-- Ejecutar en Supabase -->
+  <rect x="520" y="75" width="120" height="50" rx="6" fill="#2472a4"/>
+  <text x="580" y="97" text-anchor="middle" fill="#fff" font-weight="bold">⚙️ Supabase</text>
+  <text x="580" y="112" text-anchor="middle" fill="#ccc" font-size="9">Ejecutar operación</text>
+  <line x1="640" y1="100" x2="680" y2="100" stroke="#1a6b3a" stroke-width="1.5" marker-end="url(#b3)"/>
+
+  <!-- 200 OK -->
+  <rect x="680" y="75" width="130" height="50" rx="6" fill="#d5f5e3" stroke="#1a6b3a" stroke-width="1.5"/>
+  <text x="745" y="97" text-anchor="middle" fill="#1a6b3a" font-weight="bold">✅ 200 OK</text>
+  <text x="745" y="112" text-anchor="middle" fill="#1a6b3a" font-size="9">{ success: true }</text>
+</svg>
+<p class="fig-caption">Figura 3. Flujo de validación de roles en el backend PHP</p>
+</div>
+
+<h2 class="sec">5. Validaciones del Sistema</h2>
+<table class="data">
+  <tr><th>Tipo</th><th>Regla</th></tr>
+  <tr><td>Proyectos</td><td>La fecha de fin estimada debe ser posterior a la fecha de inicio</td></tr>
+  <tr><td>Actividades</td><td>El orden debe ser único dentro de una misma fase</td></tr>
+  <tr><td>Actividades</td><td>La fecha estimada no puede ser anterior a la fecha de inicio del proyecto</td></tr>
+  <tr><td>Fases</td><td>Un proyecto no puede tener más de 2 fases</td></tr>
+  <tr><td>Alertas</td><td>No se puede registrar una alerta duplicada para la misma actividad en el mismo día</td></tr>
+</table>
+<p style="margin-top:10px"><strong>Respuesta de error estandarizada:</strong></p>
+<div class="code-block">{ "success": false, "error": "Descripción del error" }</div>
+
+<h2 class="sec">6. Próximos Pasos — Semana 7</h2>
+<ul>
+  <li>Definir la lógica de detección de retrasos (comparación de fecha_estimada vs. fecha actual).</li>
+  <li>Diseñar el script Python <code>check_delays.py</code> y su integración con Twilio.</li>
+  <li>Documentar la configuración del cron job en el servidor Linux.</li>
+  <li>Definir el formato del mensaje SMS que recibirá el supervisor.</li>
+</ul>
+
+<div class="sig-section">
+  <div class="sig-row">
+    <div class="sig-block"><div class="sig-line"><div class="sig-name">María Camila Espinosa Flores</div><div class="sig-role">Secretaria Administrativa — Practicante<br>R.E Amueblamiento de Espacios S.A.S.</div></div></div>
+    <div class="sig-block"><div class="sig-line"><div class="sig-name">Ricardo Espinosa</div><div class="sig-role">Supervisor de Obra<br>R.E Amueblamiento de Espacios S.A.S.</div></div></div>
+  </div>
+</div>
+<div class="page-footer">María Camila Espinosa Flores — Práctica Profesional 2026</div>
+</body>
+</html>
