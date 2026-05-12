@@ -92,18 +92,32 @@ try {
             jsonResponse($nuevo[0], 201);
 
         // ── Editar información de un proyecto ─────────────────────────────────
-        // Usado desde el modal "Editar Apartamento" del dashboard
+        // Usado desde el modal "Editar Apartamento" del dashboard.
+        // Además de actualizar los datos, recalcula automáticamente las fechas
+        // de todas las actividades pendientes/en progreso cuando cambian las fechas.
         case 'PUT':
             if (!$id) jsonError('Se requiere el ID del proyecto');
             $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
-            // Actualiza los campos editables del proyecto
-            $actualizado = supabase('PATCH', 'proyectos', ['id' => "eq.$id"], [
+            // Construye el arreglo de campos a actualizar
+            $datosUpdate = [
                 'nombre'             => trim($body['nombre'] ?? ''),
                 'cliente'            => trim($body['cliente'] ?? ''),
                 'fecha_inicio'       => $body['fecha_inicio'] ?? null,
                 'fecha_fin_estimada' => $body['fecha_fin_estimada'] ?? null,
-            ]);
+            ];
+            // Torre y número de apartamento son opcionales
+            if (array_key_exists('torre', $body))       $datosUpdate['torre']       = $body['torre'] ? trim($body['torre']) : null;
+            if (!empty($body['numero_apto']))            $datosUpdate['numero_apto'] = trim($body['numero_apto']);
+
+            $actualizado = supabase('PATCH', 'proyectos', ['id' => "eq.$id"], $datosUpdate);
+
+            // Recalcula las fechas de actividades si se enviaron las dos fechas del proyecto.
+            // Esto garantiza que la última actividad siempre coincida con la fecha de entrega.
+            if (!empty($body['fecha_inicio']) && !empty($body['fecha_fin_estimada'])) {
+                recalcularFechas($id, $body['fecha_inicio'], $body['fecha_fin_estimada']);
+            }
+
             jsonResponse($actualizado[0] ?? []);
 
         // ── Cambiar estado del proyecto ────────────────────────────────────────
@@ -144,6 +158,61 @@ function validarProyecto(array $body): void {
     if (strlen(trim($body['cliente'])) < 3) jsonError('El nombre del cliente debe tener al menos 3 caracteres');
     if ($body['fecha_fin_estimada'] <= $body['fecha_inicio']) {
         jsonError('La fecha de entrega debe ser posterior a la fecha de inicio');
+    }
+}
+
+// ── Recalcular fechas de actividades al editar un proyecto ────────────────────
+// Se llama automáticamente desde el PUT cuando el usuario cambia las fechas.
+// Solo actualiza las actividades NO completadas para no pisar las fechas reales de cierre.
+//
+// Funciona leyendo el tipo de contrato del proyecto, obteniendo los offsets originales
+// del cronograma base y aplicando el mismo factor de escala que se usó al crearlo.
+function recalcularFechas(int $proyectoId, string $fechaInicio, string $fechaFin): void {
+    // Offsets originales del cronograma base (en días desde el inicio del proyecto)
+    // Estos valores deben coincidir exactamente con los de crearFasesYActividades()
+    $offsetsF1 = [7, 9, 12, 15, 19, 22, 26, 28, 34, 35, 36, 37, 38];          // Obra Blanca (13 actividades)
+    $offsetsF2 = [40, 44, 45, 47, 48, 49, 50, 52, 53, 54, 55, 56, 58, 59];    // Amueblamiento (14 actividades)
+
+    // Obtiene el tipo de contrato para saber cuál offset máximo usar
+    $proyectos = supabase('GET', 'proyectos', ['id' => "eq.$proyectoId", 'select' => 'tipo_contrato']);
+    $tipo      = $proyectos[0]['tipo_contrato'] ?? 'todo_costo';
+
+    $maxOffset = match($tipo) { 'fase1' => 38, 'fase2' => 59, default => 59 };
+
+    $inicio       = new DateTime($fechaInicio);
+    $duracionDias = (int) $inicio->diff(new DateTime($fechaFin))->days;
+    $factor       = $duracionDias > 0 ? $duracionDias / $maxOffset : 1;
+
+    // Obtiene todas las fases del proyecto
+    $fases = supabase('GET', 'fases', [
+        'proyecto_id' => "eq.$proyectoId",
+        'select'      => 'id,tipo',
+    ]);
+
+    foreach ($fases as $fase) {
+        // Selecciona el arreglo de offsets según el tipo de fase
+        $offsets = $fase['tipo'] === 'obra_blanca' ? $offsetsF1 : $offsetsF2;
+
+        // Solo recalcula actividades que NO están completadas (respeta las fechas reales de cierre)
+        $actividades = supabase('GET', 'actividades', [
+            'fase_id' => 'eq.' . $fase['id'],
+            'estado'  => 'neq.completada',
+            'select'  => 'id,orden',
+            'order'   => 'orden.asc',
+        ]);
+
+        foreach ($actividades as $act) {
+            // Busca el offset original usando el orden de la actividad (1-indexed → 0-indexed)
+            $idx = (int)$act['orden'] - 1;
+            if (!isset($offsets[$idx])) continue; // Actividad extra sin offset base → no tocar
+
+            $diasEscalados = (int) round($offsets[$idx] * $factor);
+            $fecha = (clone $inicio)->modify("+$diasEscalados days")->format('Y-m-d');
+
+            supabase('PATCH', 'actividades', ['id' => 'eq.' . $act['id']], [
+                'fecha_estimada' => $fecha,
+            ]);
+        }
     }
 }
 
