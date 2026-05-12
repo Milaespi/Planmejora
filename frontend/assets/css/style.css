@@ -222,6 +222,30 @@ input:focus, select:focus { outline: none; border-color: var(--blue); }
 .text-muted   { color: var(--gray); }
 .text-danger  { color: var(--red); }
 
+/* ── Unidades ──────────────────────────────────────────────── */
+.unidad-section {
+  background: #fff; border-radius: 10px; margin-bottom: 24px;
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.unidad-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 20px; background: var(--navy);
+  flex-wrap: wrap; gap: 10px;
+}
+.unidad-info { display: flex; flex-direction: column; gap: 2px; }
+.unidad-nombre {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 16px; font-weight: 700; color: #fff;
+}
+.unidad-icon { font-size: 18px; }
+.unidad-dir  { font-size: 12px; color: #90b4d0; }
+.unidad-meta {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.unidad-section .projects-grid {
+  padding: 16px !important;
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .container { padding: 16px 12px; }

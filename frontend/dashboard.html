@@ -19,46 +19,76 @@
   <main class="container">
     <div class="page-header">
       <div>
-        <h2>Proyectos activos</h2>
+        <h2>Unidades y apartamentos</h2>
         <p class="text-muted">Seguimiento en tiempo real</p>
       </div>
-      <div class="header-actions">
-        <select id="filtroEstado" class="select-sm" onchange="cargarProyectos()">
-          <option value="">Todos</option>
-          <option value="activo">Activos</option>
-          <option value="pausado">Pausados</option>
-          <option value="completado">Completados</option>
-        </select>
-        <button class="btn btn-primary" id="btnNuevo" onclick="abrirModal()">
-          + Nuevo proyecto
+      <div class="header-actions" id="accionesAdmin">
+        <button class="btn btn-outline" id="btnNuevaUnidad" onclick="abrirModalUnidad()">
+          + Nueva unidad
+        </button>
+        <button class="btn btn-primary" id="btnNuevoApto" onclick="abrirModalApto()">
+          + Nuevo apartamento
         </button>
       </div>
     </div>
 
-    <div id="loadingMsg" class="loading-msg">Cargando proyectos...</div>
-    <div id="errorMsg" class="alert alert-error hidden"></div>
-    <div id="proyectosGrid" class="projects-grid"></div>
+    <div id="loadingMsg" class="loading-msg">Cargando...</div>
+    <div id="errorMsg"   class="alert alert-error hidden"></div>
+    <div id="contenido"  class="hidden"></div>
   </main>
 
-  <!-- Modal nuevo proyecto -->
-  <div id="modal" class="modal-overlay hidden">
+  <!-- Modal: Nueva Unidad -->
+  <div id="modalUnidad" class="modal-overlay hidden">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3>Nueva Unidad</h3>
+        <button class="modal-close" onclick="cerrarModalUnidad()">✕</button>
+      </div>
+      <form id="formUnidad" novalidate style="padding:20px 22px">
+        <div class="form-group">
+          <label>Nombre de la unidad *</label>
+          <input type="text" id="uNombre" placeholder="Ej: Praia, Amaranto, Camelia" required>
+        </div>
+        <div class="form-group">
+          <label>Dirección</label>
+          <input type="text" id="uDireccion" placeholder="Dirección de la unidad">
+        </div>
+        <div id="errorUnidad" class="alert alert-error hidden"></div>
+        <div class="modal-footer" style="padding:0;border:none;margin-top:16px">
+          <button type="button" class="btn btn-outline" onclick="cerrarModalUnidad()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardarUnidad">Crear unidad</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Nuevo Apartamento -->
+  <div id="modalApto" class="modal-overlay hidden">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Nuevo Proyecto</h3>
-        <button class="modal-close" onclick="cerrarModal()">✕</button>
+        <h3>Nuevo Apartamento</h3>
+        <button class="modal-close" onclick="cerrarModalApto()">✕</button>
       </div>
-      <form id="formProyecto" novalidate>
+      <form id="formApto" novalidate>
         <div class="form-group">
-          <label>Nombre del proyecto *</label>
-          <input type="text" id="pNombre" placeholder="Ej: Apartamento Cra 5 #12-34" required>
+          <label>Unidad *</label>
+          <select id="pUnidad" required>
+            <option value="">Selecciona una unidad...</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Número / identificador del apto *</label>
+            <input type="text" id="pNumeroApto" placeholder="Ej: 301, Torre A-502">
+          </div>
+          <div class="form-group">
+            <label>Cliente *</label>
+            <input type="text" id="pCliente" placeholder="Nombre del propietario">
+          </div>
         </div>
         <div class="form-group">
-          <label>Dirección *</label>
-          <input type="text" id="pDireccion" placeholder="Dirección completa del apartamento" required>
-        </div>
-        <div class="form-group">
-          <label>Cliente *</label>
-          <input type="text" id="pCliente" placeholder="Nombre del cliente" required>
+          <label>Dirección del apartamento *</label>
+          <input type="text" id="pDireccion" placeholder="Dirección completa">
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -70,10 +100,10 @@
             <input type="date" id="pFechaFin" required>
           </div>
         </div>
-        <div id="modalError" class="alert alert-error hidden"></div>
+        <div id="errorApto" class="alert alert-error hidden"></div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline" onclick="cerrarModal()">Cancelar</button>
-          <button type="submit" class="btn btn-primary" id="btnGuardar">Crear proyecto</button>
+          <button type="button" class="btn btn-outline" onclick="cerrarModalApto()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardarApto">Crear apartamento</button>
         </div>
       </form>
     </div>
@@ -82,86 +112,147 @@
   <script>
     const API = '../backend/api';
 
-    // ── Auth ──────────────────────────────────────────────────────
+    // ── Auth ──────────────────────────────────────────────────
     const usuario = JSON.parse(sessionStorage.getItem('usuario') ?? 'null');
     if (!usuario) window.location.href = 'index.html';
     document.getElementById('navUsuario').textContent = `${usuario.nombre} (${usuario.rol})`;
-    if (usuario.rol !== 'admin') document.getElementById('btnNuevo').style.display = 'none';
+
+    const esAdmin = usuario.rol === 'admin';
+    if (!esAdmin) document.getElementById('accionesAdmin').style.display = 'none';
 
     function cerrarSesion() {
       sessionStorage.clear();
       window.location.href = 'index.html';
     }
 
-    // ── Cargar proyectos ─────────────────────────────────────────
-    async function cargarProyectos() {
-      const estado = document.getElementById('filtroEstado').value;
-      const loading = document.getElementById('loadingMsg');
-      const errEl   = document.getElementById('errorMsg');
-      const grid    = document.getElementById('proyectosGrid');
+    // ── Datos globales ────────────────────────────────────────
+    let unidades = [];
 
-      loading.style.display = 'block';
-      errEl.classList.add('hidden');
-      grid.innerHTML = '';
-
+    async function cargarDashboard() {
       try {
-        const url = estado ? `${API}/proyectos.php?estado=${estado}` : `${API}/proyectos.php`;
-        const res  = await fetch(url);
-        const json = await res.json();
+        const [resUnidades, resProyectos] = await Promise.all([
+          fetch(`${API}/unidades.php`).then(r => r.json()),
+          fetch(`${API}/proyectos.php`).then(r => r.json()),
+        ]);
+        if (!resUnidades.success) throw new Error(resUnidades.error);
+        if (!resProyectos.success) throw new Error(resProyectos.error);
 
-        if (!json.success) throw new Error(json.error);
-        const proyectos = json.data;
+        unidades = resUnidades.data;
+        const proyectos = resProyectos.data;
 
-        loading.style.display = 'none';
+        // Para cada proyecto, cargamos avance
+        const proyectosConAvance = await Promise.all(proyectos.map(cargarAvance));
 
-        if (!proyectos.length) {
-          grid.innerHTML = '<p class="empty-msg">No hay proyectos. ¡Crea el primero!</p>';
-          return;
-        }
-
-        // Para cada proyecto, cargamos fases+actividades para calcular avance
-        const tarjetas = await Promise.all(proyectos.map(renderTarjeta));
-        grid.innerHTML = tarjetas.join('');
-
+        renderDashboard(unidades, proyectosConAvance);
       } catch (err) {
-        loading.style.display = 'none';
-        errEl.textContent = 'Error al cargar proyectos: ' + err.message;
+        document.getElementById('loadingMsg').style.display = 'none';
+        const errEl = document.getElementById('errorMsg');
+        errEl.textContent = 'Error al cargar: ' + err.message;
         errEl.classList.remove('hidden');
       }
     }
 
-    async function renderTarjeta(p) {
-      let avance = 0, retrasadas = 0, total = 0;
+    async function cargarAvance(p) {
       try {
         const res  = await fetch(`${API}/proyectos.php?id=${p.id}`);
         const json = await res.json();
         const fases = json.data?.fases ?? [];
-        fases.forEach(f => {
-          (f.actividades ?? []).forEach(a => {
-            total++;
-            if (a.estado === 'completada') avance++;
-            if (a.estado === 'retrasada')  retrasadas++;
-          });
-        });
-      } catch {}
+        let total = 0, completadas = 0, retrasadas = 0;
+        fases.forEach(f => (f.actividades ?? []).forEach(a => {
+          total++;
+          if (a.estado === 'completada') completadas++;
+          if (a.estado === 'retrasada')  retrasadas++;
+        }));
+        return { ...p, total, completadas, retrasadas, pct: total ? Math.round(completadas / total * 100) : 0 };
+      } catch {
+        return { ...p, total: 0, completadas: 0, retrasadas: 0, pct: 0 };
+      }
+    }
 
-      const pct      = total ? Math.round((avance / total) * 100) : 0;
+    function renderDashboard(unidades, proyectos) {
+      const contenido = document.getElementById('contenido');
+      document.getElementById('loadingMsg').style.display = 'none';
+
+      if (!unidades.length && !proyectos.length) {
+        contenido.innerHTML = '<p class="empty-msg">No hay unidades ni apartamentos. ¡Crea la primera unidad!</p>';
+        contenido.classList.remove('hidden');
+        return;
+      }
+
+      // Proyectos sin unidad
+      const sinUnidad = proyectos.filter(p => !p.unidad_id);
+
+      let html = '';
+
+      // Sección por unidad
+      unidades.forEach(u => {
+        const aptos = proyectos.filter(p => p.unidad_id === u.id);
+        const totalAptos = aptos.length;
+        const pctPromedio = totalAptos
+          ? Math.round(aptos.reduce((s, p) => s + p.pct, 0) / totalAptos)
+          : 0;
+
+        html += `
+          <div class="unidad-section">
+            <div class="unidad-header">
+              <div class="unidad-info">
+                <div class="unidad-nombre">
+                  <span class="unidad-icon">🏢</span>
+                  ${u.nombre}
+                </div>
+                ${u.direccion ? `<div class="unidad-dir">${u.direccion}</div>` : ''}
+              </div>
+              <div class="unidad-meta">
+                <span class="badge badge-blue">${totalAptos} apto${totalAptos !== 1 ? 's' : ''}</span>
+                <span class="text-muted" style="font-size:12px">${pctPromedio}% avance promedio</span>
+                ${esAdmin ? `<button class="btn btn-sm btn-outline" onclick="abrirModalApto(${u.id})">+ Apartamento</button>` : ''}
+              </div>
+            </div>
+            <div class="projects-grid" style="padding:0 0 8px">
+              ${aptos.length
+                ? aptos.map(p => renderTarjeta(p)).join('')
+                : `<p class="empty-msg" style="padding:24px">Sin apartamentos en esta unidad.</p>`
+              }
+            </div>
+          </div>`;
+      });
+
+      // Apartamentos sin unidad
+      if (sinUnidad.length) {
+        html += `
+          <div class="unidad-section">
+            <div class="unidad-header">
+              <div class="unidad-nombre"><span class="unidad-icon">📁</span> Sin unidad asignada</div>
+            </div>
+            <div class="projects-grid" style="padding:0 0 8px">
+              ${sinUnidad.map(p => renderTarjeta(p)).join('')}
+            </div>
+          </div>`;
+      }
+
+      contenido.innerHTML = html || '<p class="empty-msg">No hay apartamentos registrados.</p>';
+      contenido.classList.remove('hidden');
+    }
+
+    function renderTarjeta(p) {
       const estadoBadge = {
         activo:     '<span class="badge badge-green">Activo</span>',
         pausado:    '<span class="badge badge-yellow">Pausado</span>',
         completado: '<span class="badge badge-blue">Completado</span>',
       }[p.estado] ?? '';
 
-      const alertaBanner = retrasadas
-        ? `<div class="card-alert">⚠ ${retrasadas} actividad${retrasadas > 1 ? 'es' : ''} retrasada${retrasadas > 1 ? 's' : ''}</div>`
+      const alertaBanner = p.retrasadas
+        ? `<div class="card-alert">⚠ ${p.retrasadas} actividad${p.retrasadas > 1 ? 'es' : ''} retrasada${p.retrasadas > 1 ? 's' : ''}</div>`
         : '';
+
+      const subtitulo = p.numero_apto ? `Apto ${p.numero_apto}` : p.direccion;
 
       return `
         <div class="project-card" onclick="verProyecto(${p.id})">
           <div class="card-top">
             <div>
               <div class="card-title">${p.nombre}</div>
-              <div class="card-sub">${p.direccion}</div>
+              <div class="card-sub">${subtitulo}</div>
             </div>
             ${estadoBadge}
           </div>
@@ -171,13 +262,13 @@
           </div>
           ${alertaBanner}
           <div class="progress-label">
-            <span>Avance general</span><span>${pct}%</span>
+            <span>Avance general</span><span>${p.pct}%</span>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" style="width:${pct}%"></div>
+            <div class="progress-fill" style="width:${p.pct}%"></div>
           </div>
           <div class="card-footer">
-            <span class="text-muted">${avance}/${total} actividades</span>
+            <span class="text-muted">${p.completadas}/${p.total} actividades</span>
             <span class="link-btn">Ver detalle →</span>
           </div>
         </div>`;
@@ -188,61 +279,121 @@
       window.location.href = 'proyecto.html';
     }
 
-    // ── Modal nuevo proyecto ──────────────────────────────────────
-    function abrirModal() {
-      document.getElementById('modal').classList.remove('hidden');
-      document.getElementById('pFechaInicio').value = new Date().toISOString().split('T')[0];
+    // ── Modal Unidad ──────────────────────────────────────────
+    function abrirModalUnidad() {
+      document.getElementById('modalUnidad').classList.remove('hidden');
+      document.getElementById('uNombre').focus();
+    }
+    function cerrarModalUnidad() {
+      document.getElementById('modalUnidad').classList.add('hidden');
+      document.getElementById('formUnidad').reset();
+      document.getElementById('errorUnidad').classList.add('hidden');
     }
 
-    function cerrarModal() {
-      document.getElementById('modal').classList.add('hidden');
-      document.getElementById('formProyecto').reset();
-      document.getElementById('modalError').classList.add('hidden');
-    }
-
-    document.getElementById('formProyecto').addEventListener('submit', async (e) => {
+    document.getElementById('formUnidad').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const errEl = document.getElementById('modalError');
-      const btn   = document.getElementById('btnGuardar');
+      const errEl = document.getElementById('errorUnidad');
+      const btn   = document.getElementById('btnGuardarUnidad');
       errEl.classList.add('hidden');
-      btn.disabled = true;
-      btn.textContent = 'Creando...';
+      btn.disabled = true; btn.textContent = 'Creando...';
 
-      const body = {
-        nombre:             document.getElementById('pNombre').value.trim(),
-        direccion:          document.getElementById('pDireccion').value.trim(),
-        cliente:            document.getElementById('pCliente').value.trim(),
-        fecha_inicio:       document.getElementById('pFechaInicio').value,
-        fecha_fin_estimada: document.getElementById('pFechaFin').value,
-      };
+      try {
+        const res  = await fetch(`${API}/unidades.php`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre:    document.getElementById('uNombre').value.trim(),
+            direccion: document.getElementById('uDireccion').value.trim(),
+          }),
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+        cerrarModalUnidad();
+        cargarDashboard();
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Crear unidad';
+      }
+    });
+
+    // ── Modal Apartamento ─────────────────────────────────────
+    function abrirModalApto(preseleccionarUnidadId = null) {
+      // Poblar select de unidades
+      const sel = document.getElementById('pUnidad');
+      sel.innerHTML = '<option value="">Selecciona una unidad...</option>';
+      unidades.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.id;
+        opt.textContent = u.nombre;
+        if (preseleccionarUnidadId && u.id === preseleccionarUnidadId) opt.selected = true;
+        sel.appendChild(opt);
+      });
+
+      document.getElementById('pFechaInicio').value = new Date().toISOString().split('T')[0];
+      document.getElementById('modalApto').classList.remove('hidden');
+    }
+    function cerrarModalApto() {
+      document.getElementById('modalApto').classList.add('hidden');
+      document.getElementById('formApto').reset();
+      document.getElementById('errorApto').classList.add('hidden');
+    }
+
+    document.getElementById('formApto').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('errorApto');
+      const btn   = document.getElementById('btnGuardarApto');
+      errEl.classList.add('hidden');
+
+      const unidadId   = document.getElementById('pUnidad').value;
+      const numeroApto = document.getElementById('pNumeroApto').value.trim();
+      const cliente    = document.getElementById('pCliente').value.trim();
+      const direccion  = document.getElementById('pDireccion').value.trim();
+      const fechaIni   = document.getElementById('pFechaInicio').value;
+      const fechaFin   = document.getElementById('pFechaFin').value;
+
+      if (!unidadId)   { errEl.textContent = 'Selecciona una unidad'; errEl.classList.remove('hidden'); return; }
+      if (!numeroApto) { errEl.textContent = 'El número de apartamento es requerido'; errEl.classList.remove('hidden'); return; }
+
+      const unidadNombre = unidades.find(u => u.id == unidadId)?.nombre ?? 'Apartamento';
+
+      btn.disabled = true; btn.textContent = 'Creando...';
 
       try {
         const res  = await fetch(`${API}/proyectos.php`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
+          body: JSON.stringify({
+            nombre:             `${unidadNombre} - Apto ${numeroApto}`,
+            direccion:          direccion || `${unidadNombre} Apto ${numeroApto}`,
+            cliente:            cliente,
+            fecha_inicio:       fechaIni,
+            fecha_fin_estimada: fechaFin,
+            unidad_id:          parseInt(unidadId),
+            numero_apto:        numeroApto,
+          }),
         });
         const json = await res.json();
         if (!json.success) throw new Error(json.error);
-        cerrarModal();
-        cargarProyectos();
+        cerrarModalApto();
+        cargarDashboard();
       } catch (err) {
         errEl.textContent = err.message;
         errEl.classList.remove('hidden');
       } finally {
-        btn.disabled = false;
-        btn.textContent = 'Crear proyecto';
+        btn.disabled = false; btn.textContent = 'Crear apartamento';
       }
     });
 
-    // ── Utilidades ────────────────────────────────────────────────
+    // ── Utilidades ────────────────────────────────────────────
     function formatFecha(iso) {
       if (!iso) return '—';
       const [y, m, d] = iso.split('-');
       return `${d}/${m}/${y}`;
     }
 
-    cargarProyectos();
+    cargarDashboard();
   </script>
 </body>
 </html>

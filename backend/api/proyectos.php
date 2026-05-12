@@ -42,14 +42,17 @@ try {
             $body = json_decode(file_get_contents('php://input'), true) ?? [];
             validarProyecto($body);
 
-            $nuevo = supabase('POST', 'proyectos', [], [
+            $datos = [
                 'nombre'             => trim($body['nombre']),
                 'direccion'          => trim($body['direccion']),
                 'cliente'            => trim($body['cliente']),
                 'fecha_inicio'       => $body['fecha_inicio'],
                 'fecha_fin_estimada' => $body['fecha_fin_estimada'],
                 'estado'             => 'activo',
-            ]);
+            ];
+            if (!empty($body['unidad_id']))   $datos['unidad_id']   = (int) $body['unidad_id'];
+            if (!empty($body['numero_apto'])) $datos['numero_apto'] = trim($body['numero_apto']);
+            $nuevo = supabase('POST', 'proyectos', [], $datos);
 
             $proyectoId = $nuevo[0]['id'];
             crearFasesYActividades($proyectoId, $body['fecha_inicio']);
