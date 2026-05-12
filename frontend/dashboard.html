@@ -9,8 +9,17 @@
 <body>
 
   <nav class="navbar">
-    <div class="nav-brand">🏗 Planmejora</div>
+    <div class="nav-brand">
+      <img src="assets/img/logo.png" alt="logo" class="nav-logo" onerror="this.style.display='none'">
+      <div class="nav-logo-text">
+        <span>R.E Amueblamiento de Espacios</span>
+        <span>Sistema de Monitoreo</span>
+      </div>
+    </div>
     <div class="nav-right">
+      <button class="btn-bell" onclick="toggleAlertas()" title="Alertas">
+        🔔<span class="bell-badge hidden" id="bellBadge">0</span>
+      </button>
       <span id="navUsuario"></span>
       <button class="btn btn-sm btn-outline" onclick="cerrarSesion()">Salir</button>
     </div>
@@ -29,6 +38,17 @@
         <button class="btn btn-primary" id="btnNuevoApto" onclick="abrirModalApto()">
           + Nuevo apartamento
         </button>
+      </div>
+    </div>
+
+    <!-- Panel de alertas (oculto por defecto) -->
+    <div id="panelAlertas" class="alertas-panel hidden">
+      <div class="alertas-panel-header">
+        <h3>⚠ Actividades retrasadas</h3>
+        <button class="btn btn-sm btn-danger" onclick="enviarSMS()" id="btnSMS">Enviar SMS ahora</button>
+      </div>
+      <div class="alertas-list" id="listaAlertas">
+        <div class="alertas-empty">Cargando alertas...</div>
       </div>
     </div>
 
@@ -425,6 +445,62 @@
     }
 
     cargarDashboard();
+    cargarAlertas();
+
+    // ── Notificaciones ────────────────────────────────────────
+    let alertasData = [];
+
+    async function cargarAlertas() {
+      try {
+        const res  = await fetch(`${API}/notificaciones.php`);
+        const json = await res.json();
+        if (!json.success) return;
+        alertasData = json.data;
+
+        const badge = document.getElementById('bellBadge');
+        if (alertasData.length > 0) {
+          badge.textContent = alertasData.length;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+
+        const lista = document.getElementById('listaAlertas');
+        if (!alertasData.length) {
+          lista.innerHTML = '<div class="alertas-empty">✅ Sin actividades retrasadas</div>';
+          return;
+        }
+
+        lista.innerHTML = alertasData.map(a => `
+          <div class="alerta-item" onclick="verProyecto(${a.proyecto_id})" style="cursor:pointer">
+            <div class="alerta-info">
+              <div class="alerta-nombre">${a.actividad}</div>
+              <div class="alerta-meta">${a.proyecto} · ${a.fase}</div>
+            </div>
+            <div class="alerta-dias">${a.dias_retraso}d de retraso</div>
+          </div>`).join('');
+      } catch {}
+    }
+
+    function toggleAlertas() {
+      const panel = document.getElementById('panelAlertas');
+      panel.classList.toggle('hidden');
+    }
+
+    async function enviarSMS() {
+      const btn = document.getElementById('btnSMS');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      try {
+        const res  = await fetch(`${API}/notificaciones.php`, { method: 'POST' });
+        const json = await res.json();
+        btn.textContent = json.success ? 'SMS enviados ✓' : 'Error al enviar';
+        setTimeout(() => { btn.disabled = false; btn.textContent = 'Enviar SMS ahora'; }, 3000);
+      } catch {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.disabled = false; btn.textContent = 'Enviar SMS ahora'; }, 3000);
+      }
+    }
   </script>
 </body>
 </html>
