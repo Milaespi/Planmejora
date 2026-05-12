@@ -34,6 +34,8 @@ function supabase(string $method, string $table, array $params = [], ?array $bod
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER     => $headers,
         CURLOPT_CUSTOMREQUEST  => strtoupper($method),
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
     ]);
 
     if ($body !== null) {
