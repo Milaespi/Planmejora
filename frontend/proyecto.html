@@ -36,7 +36,10 @@
       <div class="avance-bar-section">
         <div class="progress-label">
           <span>Avance general del proyecto</span>
-          <span id="avancePct" class="avance-pct">0%</span>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span id="avancePct" class="avance-pct">0%</span>
+            <button class="btn btn-sm btn-outline" onclick="verReporte()">Ver reporte</button>
+          </div>
         </div>
         <div class="progress-bar progress-bar-lg">
           <div id="avanceFill" class="progress-fill" style="width:0%"></div>
@@ -81,6 +84,8 @@
 
     if (!usuario)    window.location.href = 'index.html';
     if (!proyectoId) window.location.href = 'dashboard.html';
+
+    function verReporte() { window.location.href = 'reportes.html'; }
 
     document.getElementById('navUsuario').textContent = `${usuario.nombre} (${usuario.rol})`;
 
