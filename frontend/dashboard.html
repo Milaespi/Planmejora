@@ -78,17 +78,43 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Número / identificador del apto *</label>
-            <input type="text" id="pNumeroApto" placeholder="Ej: 301, Torre A-502">
+            <label>Torre</label>
+            <input type="text" id="pTorre" placeholder="Ej: A, B, Norte">
           </div>
           <div class="form-group">
-            <label>Cliente *</label>
-            <input type="text" id="pCliente" placeholder="Nombre del propietario">
+            <label>Apto *</label>
+            <input type="text" id="pNumeroApto" placeholder="Ej: 301, 502">
           </div>
         </div>
         <div class="form-group">
-          <label>Dirección del apartamento *</label>
-          <input type="text" id="pDireccion" placeholder="Dirección completa">
+          <label>Cliente *</label>
+          <input type="text" id="pCliente" placeholder="Nombre del propietario">
+        </div>
+        <div class="form-group">
+          <label>Tipo de contrato *</label>
+          <div class="contrato-options">
+            <label class="contrato-opt">
+              <input type="radio" name="tipoContrato" value="fase1">
+              <span>
+                <strong>Fase 1</strong>
+                <small>Solo Obra Blanca (13 actividades)</small>
+              </span>
+            </label>
+            <label class="contrato-opt">
+              <input type="radio" name="tipoContrato" value="fase2">
+              <span>
+                <strong>Fase 2</strong>
+                <small>Solo Amueblamiento (14 actividades)</small>
+              </span>
+            </label>
+            <label class="contrato-opt">
+              <input type="radio" name="tipoContrato" value="todo_costo" checked>
+              <span>
+                <strong>A todo costo</strong>
+                <small>Obra Blanca + Amueblamiento (27 actividades)</small>
+              </span>
+            </label>
+          </div>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -115,7 +141,7 @@
     // ── Auth ──────────────────────────────────────────────────
     const usuario = JSON.parse(sessionStorage.getItem('usuario') ?? 'null');
     if (!usuario) window.location.href = 'index.html';
-    document.getElementById('navUsuario').textContent = `${usuario.nombre} (${usuario.rol})`;
+    document.getElementById('navUsuario').textContent = usuario.nombre;
 
     const esAdmin = usuario.rol === 'admin';
     if (!esAdmin) document.getElementById('accionesAdmin').style.display = 'none';
@@ -346,17 +372,21 @@
       const btn   = document.getElementById('btnGuardarApto');
       errEl.classList.add('hidden');
 
-      const unidadId   = document.getElementById('pUnidad').value;
-      const numeroApto = document.getElementById('pNumeroApto').value.trim();
-      const cliente    = document.getElementById('pCliente').value.trim();
-      const direccion  = document.getElementById('pDireccion').value.trim();
-      const fechaIni   = document.getElementById('pFechaInicio').value;
-      const fechaFin   = document.getElementById('pFechaFin').value;
+      const unidadId    = document.getElementById('pUnidad').value;
+      const torre       = document.getElementById('pTorre').value.trim();
+      const numeroApto  = document.getElementById('pNumeroApto').value.trim();
+      const cliente     = document.getElementById('pCliente').value.trim();
+      const fechaIni    = document.getElementById('pFechaInicio').value;
+      const fechaFin    = document.getElementById('pFechaFin').value;
+      const tipoContrato = document.querySelector('input[name="tipoContrato"]:checked')?.value ?? 'todo_costo';
 
       if (!unidadId)   { errEl.textContent = 'Selecciona una unidad'; errEl.classList.remove('hidden'); return; }
       if (!numeroApto) { errEl.textContent = 'El número de apartamento es requerido'; errEl.classList.remove('hidden'); return; }
+      if (!cliente)    { errEl.textContent = 'El nombre del cliente es requerido'; errEl.classList.remove('hidden'); return; }
 
-      const unidadNombre = unidades.find(u => u.id == unidadId)?.nombre ?? 'Apartamento';
+      const unidadNombre = unidades.find(u => u.id == unidadId)?.nombre ?? '';
+      const torreStr     = torre ? ` Torre ${torre}` : '';
+      const nombreAuto   = `${unidadNombre}${torreStr} Apto ${numeroApto}`;
 
       btn.disabled = true; btn.textContent = 'Creando...';
 
@@ -365,13 +395,14 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            nombre:             `${unidadNombre} - Apto ${numeroApto}`,
-            direccion:          direccion || `${unidadNombre} Apto ${numeroApto}`,
+            nombre:             nombreAuto,
             cliente:            cliente,
             fecha_inicio:       fechaIni,
             fecha_fin_estimada: fechaFin,
             unidad_id:          parseInt(unidadId),
             numero_apto:        numeroApto,
+            torre:              torre || null,
+            tipo_contrato:      tipoContrato,
           }),
         });
         const json = await res.json();

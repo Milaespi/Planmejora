@@ -177,7 +177,7 @@
     // ── Auth ──────────────────────────────────────────────────
     const usuario = JSON.parse(sessionStorage.getItem('usuario') ?? 'null');
     if (!usuario) window.location.href = 'index.html';
-    document.getElementById('navUsuario').textContent = `${usuario.nombre} (${usuario.rol})`;
+    document.getElementById('navUsuario').textContent = usuario.nombre;
     document.getElementById('fechaGenerado').textContent = new Date().toLocaleDateString('es-CO', {
       day: '2-digit', month: 'long', year: 'numeric'
     });

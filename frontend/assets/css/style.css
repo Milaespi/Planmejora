@@ -222,6 +222,22 @@ input:focus, select:focus { outline: none; border-color: var(--blue); }
 .text-muted   { color: var(--gray); }
 .text-danger  { color: var(--red); }
 
+/* ── Tipo de contrato ──────────────────────────────────────── */
+.contrato-options { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.contrato-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--radius); cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.contrato-opt:hover { border-color: var(--blue); background: #f5f9fd; }
+.contrato-opt input[type="radio"] { margin-top: 3px; accent-color: var(--blue); }
+.contrato-opt input[type="radio"]:checked ~ span { color: var(--navy); }
+.contrato-opt:has(input:checked) { border-color: var(--blue); background: #eef5fb; }
+.contrato-opt span { display: flex; flex-direction: column; gap: 2px; }
+.contrato-opt strong { font-size: 13.5px; color: var(--navy); }
+.contrato-opt small  { font-size: 11.5px; color: var(--gray); }
+
 /* ── Unidades ──────────────────────────────────────────────── */
 .unidad-section {
   background: #fff; border-radius: 10px; margin-bottom: 24px;
