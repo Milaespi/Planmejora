@@ -73,26 +73,35 @@ try {
         // Ejecuta el script Python que usa Twilio para enviar mensajes de texto
         // a los responsables cuando hay actividades retrasadas.
         case 'POST':
-            $scriptPath = __DIR__ . '/../../scripts/cron_alertas.py';
-            $envPath    = __DIR__ . '/../../.env';
+            // Limpia cualquier salida previa que pueda romper el JSON
+            ob_clean();
 
-            // Verifica que el script Python exista antes de intentar ejecutarlo
-            if (!file_exists($scriptPath)) {
-                jsonError('Script de alertas no encontrado', 500);
+            // Verifica que exec() esté habilitado en PHP
+            if (!function_exists('exec')) {
+                jsonError('La función exec() está deshabilitada en este servidor PHP.', 500);
             }
 
-            // exec() ejecuta un comando del sistema operativo desde PHP
-            // "2>&1" redirige los errores al mismo canal que la salida normal
+            $scriptPath = realpath(__DIR__ . '/../../scripts/cron_alertas.py');
+            if (!$scriptPath || !file_exists($scriptPath)) {
+                jsonError('Script no encontrado: ' . __DIR__ . '/../../scripts/cron_alertas.py', 500);
+            }
+
+            $scriptDir = dirname($scriptPath);
+
+            // En producción (Linux) usa python3; en Windows local usa la ruta completa
+            $pythonCmd = PHP_OS_FAMILY === 'Windows'
+                ? 'C:\\Python313\\python.exe'
+                : 'python3';
+
             $output   = [];
             $exitCode = 0;
-            exec("python \"$scriptPath\" 2>&1", $output, $exitCode);
+            exec("cd /d \"$scriptDir\" && \"$pythonCmd\" \"$scriptPath\" 2>&1", $output, $exitCode);
 
-            // Devuelve si se ejecutó, lo que imprimió el script y el código de salida
-            // (código 0 = sin errores, cualquier otro = hubo un problema)
             jsonResponse([
-                'ejecutado' => true,
-                'salida'    => implode("\n", $output),
-                'codigo'    => $exitCode,
+                'ejecutado'  => true,
+                'python_cmd' => $pythonCmd,
+                'salida'     => implode("\n", $output),
+                'codigo'     => $exitCode,
             ]);
 
         default:

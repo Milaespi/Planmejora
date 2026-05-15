@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe Final de Prácticas — María Camila Espinosa</title>
+<style>
+  body { font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.6;
+         max-width: 900px; margin: 40px auto; padding: 0 40px; color: #111; }
+  h1 { font-size: 16pt; text-align: center; text-transform: uppercase; margin-bottom: 4px; }
+  h2 { font-size: 13pt; text-align: center; margin-top: 0; color: #333; }
+  h3 { font-size: 12pt; text-transform: uppercase; border-bottom: 1px solid #333;
+       padding-bottom: 4px; margin-top: 28px; }
+  h4 { font-size: 12pt; font-style: italic; margin-bottom: 4px; }
+  .portada { text-align: center; margin-bottom: 60px; padding-top: 40px; }
+  .portada p { margin: 6px 0; }
+  .datos-tabla { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  .datos-tabla td { padding: 5px 10px; border: 1px solid #999; vertical-align: top; }
+  .datos-tabla td:first-child { font-weight: bold; width: 35%; background: #f5f5f5; }
+  ul, ol { margin: 6px 0; padding-left: 24px; }
+  li { margin: 4px 0; }
+  .seccion { margin-bottom: 24px; }
+  .check { color: green; font-weight: bold; }
+  @media print {
+    body { margin: 20px; padding: 0 20px; }
+    h3 { page-break-after: avoid; }
+    .portada { page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     PORTADA
+══════════════════════════════════════════════════════════ -->
+<div class="portada">
+  <p><strong>FUNDACIÓN UNIVERSITARIA CATÓLICA LUMEN GENTIUM</strong></p>
+  <p>PROGRAMA DE INGENIERÍA DE SISTEMAS</p>
+  <br><br>
+  <h1>Informe Final de Prácticas Empresariales</h1>
+  <h2>PLANMEJORA<br>Sistema de Monitoreo Web de Proyectos de Remodelación</h2>
+  <br><br>
+  <p><strong>Estudiante:</strong> María Camila Espinosa Florez</p>
+  <p><strong>Documento de identidad:</strong> 1.005.831.395</p>
+  <p><strong>Correo:</strong> maria.espinosa01@unicatolica.edu.co</p>
+  <p><strong>Empresa:</strong> R.E Amueblamiento de Espacios S.A.S.</p>
+  <p><strong>Supervisor empresarial:</strong> Ricardo Espinosa</p>
+  <br>
+  <p>Cali, Valle del Cauca — Mayo 2026</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     1. DATOS BÁSICOS
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>1. Datos Básicos</h3>
+<table class="datos-tabla">
+  <tr><td>Empresa</td><td>R.E Amueblamiento de Espacios S.A.S. — NIT: 901923239</td></tr>
+  <tr><td>Dirección</td><td>Calle 54 #84-160, Cali, Valle del Cauca</td></tr>
+  <tr><td>Supervisor empresarial</td><td>Ricardo Espinosa — Gerente — Tel: 3136997304 — respinosa2008@hotmail.com</td></tr>
+  <tr><td>Tutor académico</td><td>(Nombre y contacto del docente asignado)</td></tr>
+  <tr><td>Duración de la práctica</td><td>9 de marzo de 2026 – 30 de mayo de 2026 (12 semanas)</td></tr>
+  <tr><td>Modalidad</td><td>Práctica empresarial — Mejora Aplicada</td></tr>
+  <tr><td>Cargo desempeñado</td><td>Secretaria administrativa / Desarrolladora del sistema</td></tr>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     2. INTRODUCCIÓN
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>2. Introducción</h3>
+
+<h4>Presentación general de la práctica</h4>
+<p>La práctica empresarial fue realizada en la empresa R.E Amueblamiento de Espacios S.A.S., ubicada en la ciudad de Cali, Valle del Cauca, durante el período comprendido entre el 9 de marzo y el 30 de mayo de 2026. El objetivo principal fue diseñar e implementar un sistema de monitoreo web denominado <strong>Planmejora</strong>, orientado a mejorar el control y seguimiento de los proyectos de remodelación que gestiona la empresa. Esta experiencia permitió aplicar conocimientos técnicos adquiridos a lo largo del programa de Ingeniería de Sistemas en un entorno empresarial real, contribuyendo de manera directa a la transformación digital de los procesos operativos de la organización.</p>
+
+<h4>Descripción de la empresa y el área de práctica</h4>
+<p>R.E Amueblamiento de Espacios S.A.S. es una empresa de tamaño micro, con 3 empleados directos y 15 indirectos, dedicada a la remodelación y amueblamiento de apartamentos y espacios interiores en la ciudad de Cali. Su actividad económica se enmarca en el sector de la construcción (código CIIU 3110). La práctica se desarrolló en el área administrativa, donde se planifican y gestionan los proyectos activos de remodelación, área que carecía de herramientas digitales para el seguimiento del avance de las obras.</p>
+
+<h4>Metodología para la elaboración del informe</h4>
+<p>La información para la elaboración de este informe fue recopilada mediante: (1) observación directa de los procesos internos de la empresa, (2) entrevistas con el supervisor Ricardo Espinosa para identificar necesidades, problemáticas y expectativas frente al sistema, y (3) revisión de los documentos internos de control de obra utilizados antes de la implementación del sistema. El informe se organizó cronológicamente, siguiendo las cuatro fases del proyecto: análisis, diseño, implementación y evaluación.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     3. OBJETIVOS
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>3. Objetivos</h3>
+
+<h4>General</h4>
+<p>Diseñar e implementar un sistema de monitoreo y seguimiento web denominado "Planmejora" para los proyectos de remodelación de la empresa R.E Amueblamiento de Espacios S.A.S., con el fin de mejorar el control de las actividades de obra, optimizar la organización de la información y facilitar la toma de decisiones en tiempo real por parte del supervisor.</p>
+
+<h4>Específicos</h4>
+<ol>
+  <li>Diseñar la arquitectura de base de datos y la estructura de módulos del sistema de monitoreo, contemplando las fases de obra blanca y amueblamiento características del proceso de remodelación de la empresa.</li>
+  <li>Implementar el sistema web multiusuario con autenticación segura, panel de control (dashboard) de seguimiento y módulo de reportes imprimibles.</li>
+  <li>Desarrollar un sistema de alertas automáticas por SMS que notifique al supervisor sobre actividades con retraso en los proyectos activos.</li>
+  <li>Aplicar el sistema de monitoreo en los proyectos activos de la empresa y validar su funcionamiento con datos reales.</li>
+  <li>Evaluar los resultados obtenidos a partir de la implementación, identificando mejoras logradas en el control de los proyectos de remodelación.</li>
+</ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     4. ACTIVIDADES REALIZADAS
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>4. Actividades Realizadas</h3>
+<ol>
+  <li><strong>Diagnóstico del proceso actual (Semana 1):</strong> Levantamiento del proceso manual de seguimiento de obras existente en la empresa. Identificación de la ausencia total de herramientas digitales para el control de proyectos. Definición de requerimientos funcionales y no funcionales del sistema a desarrollar.</li>
+
+  <li><strong>Identificación de problemas (Semana 2):</strong> Análisis de los principales problemas del proceso actual: falta de visibilidad sobre el estado real de avance de cada obra, ausencia de historial de actividades completadas, y demoras en la comunicación de retrasos al supervisor encargado.</li>
+
+  <li><strong>Análisis de las fases de remodelación (Semana 3):</strong> Mapeo y documentación de las 27 actividades del proceso completo de remodelación, clasificadas en Fase 1 — Obra Blanca (13 actividades: regatas, hidráulico, panel yeso, estuco, pintura, eléctrico, mortero, enchape, entre otras) y Fase 2 — Amueblamiento (14 actividades: carpintería, piedra, divisiones, lavamanos, espejos, fragua, entre otras), con sus respectivos tiempos estimados en el cronograma base.</li>
+
+  <li><strong>Diseño de la arquitectura del sistema (Semana 4):</strong> Diseño del modelo de base de datos relacional en Supabase (PostgreSQL) con cinco tablas: unidades, proyectos, fases, actividades y alertas, con relaciones de eliminación en cascada. Definición de la arquitectura tecnológica: PHP (backend API REST) + Supabase (base de datos en la nube) + Python + Twilio (notificaciones SMS).</li>
+
+  <li><strong>Diseño de interfaces y documentación de la API (Semana 5):</strong> Diseño de los esquemas de las cuatro páginas del sistema (login, dashboard, proyecto, reportes) y documentación de los cinco endpoints de la API REST (auth, unidades, proyectos, actividades, notificaciones).</li>
+
+  <li><strong>Creación de formatos de seguimiento (Semanas 6–7):</strong> Implementación de los módulos de creación y edición de proyectos, con el algoritmo de distribución proporcional automática de fechas de actividades según la duración real de cada proyecto. Integración del servicio Twilio mediante un script Python para el envío de alertas SMS al supervisor cuando se detectan actividades con retraso.</li>
+
+  <li><strong>Módulo de reportes (Semana 8):</strong> Desarrollo de la página de reporte imprimible por proyecto, con estadísticas de avance por fase, tabla de actividades con estado y fechas, y exportación directa a PDF desde el navegador (Ctrl+P).</li>
+
+  <li><strong>Implementación, pruebas y ajustes (Semanas 9–10):</strong> Despliegue del sistema en servidor local XAMPP y pruebas de todas las funcionalidades. Corrección de errores detectados: recálculo automático de fechas de actividades al editar un proyecto, mejora de la interfaz visual con paleta de colores corporativos (dorado y azul marino), adición del logo de la empresa y habilitación de los botones de eliminar y editar apartamentos desde el dashboard.</li>
+</ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     5. ANÁLISIS CRÍTICO Y CONTRIBUCIONES
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>5. Análisis Crítico y Contribuciones</h3>
+
+<h4>Aplicación de Conocimientos Académicos</h4>
+<p>Durante el desarrollo de la práctica se aplicaron conocimientos de múltiples áreas del programa de Ingeniería de Sistemas:</p>
+<ul>
+  <li><strong>Arquitectura de bases de datos:</strong> diseño del modelo relacional, normalización de tablas y configuración de restricciones de integridad referencial (CASCADE) en PostgreSQL.</li>
+  <li><strong>Programación web:</strong> desarrollo del frontend con HTML5, CSS3 y JavaScript, y del backend con PHP siguiendo el patrón de API REST.</li>
+  <li><strong>Lógica de programación:</strong> implementación del algoritmo de distribución proporcional de fechas, donde cada actividad recibe una fecha calculada según su posición relativa en el cronograma: <em>fecha = fecha_inicio + redondear(offset_base × (días_reales / offset_máximo))</em>.</li>
+  <li><strong>Redes y servicios web:</strong> consumo de la API REST de Supabase mediante CURL en PHP y la biblioteca requests en Python, con manejo de autenticación por tokens Bearer.</li>
+  <li><strong>Seguridad informática:</strong> implementación de autenticación con contraseñas hasheadas mediante el algoritmo bcrypt (nunca texto plano), control de acceso por roles y validación de entradas en servidor.</li>
+</ul>
+
+<h4>Habilidades Desarrolladas</h4>
+<p><strong>Técnicas:</strong> desarrollo full-stack (PHP, JavaScript, Python), consumo e integración de APIs REST externas (Supabase, Twilio), gestión de bases de datos en la nube, autenticación segura, y generación de reportes PDF desde el navegador.</p>
+<p><strong>Blandas:</strong> levantamiento de requerimientos con un cliente real no técnico, gestión del tiempo en un proyecto con cronograma definido de 16 semanas, comunicación efectiva de soluciones técnicas en términos comprensibles, y resolución de problemas imprevistos (errores de configuración SSL, restricciones de cuentas de prueba de Twilio).</p>
+
+<h4>Aportes a la Empresa</h4>
+<ul>
+  <li>Se entregó un sistema web funcional que reemplaza el seguimiento manual en papel, accesible desde cualquier navegador.</li>
+  <li>La empresa pasó de no tener visibilidad sobre el estado de sus obras a poder monitorear en tiempo real el avance de cada apartamento, con porcentajes de completado por fase.</li>
+  <li>El sistema de alertas SMS permite al supervisor recibir notificaciones automáticas sobre actividades con retraso, reduciendo la dependencia de llamadas telefónicas y visitas de seguimiento.</li>
+  <li>El módulo de reportes genera documentos impresos y en PDF de cada proyecto, utilizables como evidencia de avance ante clientes y como registro interno de gestión.</li>
+</ul>
+
+<h4>Innovaciones Implementadas</h4>
+<ul>
+  <li><strong>Distribución proporcional de fechas:</strong> el sistema calcula automáticamente las fechas estimadas de cada actividad al crear un proyecto, distribuyéndolas proporcionalmente entre la fecha de inicio y la fecha de entrega real, de modo que la última actividad coincida exactamente con la entrega acordada con el cliente.</li>
+  <li><strong>Recálculo automático:</strong> si el supervisor modifica las fechas de un proyecto, todas las actividades pendientes se redistribuyen automáticamente sin intervención adicional.</li>
+  <li><strong>Tres modalidades de contrato:</strong> el sistema soporta Fase 1 (solo obra blanca), Fase 2 (solo amueblamiento) o Todo Costo (ambas fases), generando automáticamente las actividades correspondientes según el alcance pactado.</li>
+</ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     6. RESULTADOS Y CONCLUSIONES
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>6. Resultados y Conclusiones</h3>
+
+<h4>Síntesis de resultados alcanzados</h4>
+<ul>
+  <li>Sistema web "Planmejora" completamente funcional con 4 módulos: autenticación, dashboard, seguimiento de proyecto y reportes.</li>
+  <li>Base de datos en la nube (Supabase) con 5 tablas relacionadas: unidades, proyectos, fases, actividades y alertas.</li>
+  <li>API REST con 5 endpoints documentados y comentados (auth, unidades, proyectos, actividades, notificaciones).</li>
+  <li>Cronograma base de 27 actividades predefinidas para el proceso completo de remodelación, organizado en 2 fases.</li>
+  <li>Sistema de alertas SMS integrado con Twilio, con registro histórico de alertas enviadas para evitar duplicados.</li>
+  <li>Módulo de reportes con exportación a PDF directamente desde el navegador.</li>
+</ul>
+
+<h4>Análisis del cumplimiento de objetivos</h4>
+<p>Todos los objetivos específicos planteados al inicio de la práctica fueron cumplidos satisfactoriamente:</p>
+<ul>
+  <li><span class="check">✓</span> Se diseñó la arquitectura de base de datos y el sistema de módulos contemplando las dos fases del proceso de remodelación.</li>
+  <li><span class="check">✓</span> Se implementó el sistema web multiusuario con autenticación segura, dashboard y módulo de reportes.</li>
+  <li><span class="check">✓</span> Se desarrolló e integró el sistema de alertas automáticas por SMS mediante Twilio y Python.</li>
+  <li><span class="check">✓</span> El sistema fue aplicado y probado con los proyectos activos reales de la empresa.</li>
+  <li><span class="check">✓</span> Se realizaron pruebas funcionales, se identificaron errores y se aplicaron mejoras iterativas durante las semanas 9 y 10.</li>
+</ul>
+
+<h4>Impacto en el desarrollo profesional y personal</h4>
+<p>La práctica permitió consolidar un perfil como desarrolladora full-stack con experiencia en proyectos reales con impacto empresarial medible. Se enfrentaron y superaron retos técnicos significativos, como la configuración de entornos de desarrollo locales con certificados SSL, la integración de servicios externos con restricciones de cuentas de prueba, y el diseño de algoritmos adaptados a necesidades específicas del negocio. A nivel personal, la experiencia fortaleció la capacidad de comunicación con un cliente no técnico, la autonomía en la toma de decisiones técnicas y la gestión del trabajo bajo un cronograma estricto de 16 semanas.</p>
+
+<h4>Lecciones aprendidas</h4>
+<ul>
+  <li>La comunicación constante con el cliente es fundamental: varios requerimientos se ajustaron durante el desarrollo al comprender mejor los procesos reales de la empresa (estructura de unidades y apartamentos, tipos de contrato, campos necesarios).</li>
+  <li>El entorno de producción puede diferir significativamente del entorno de desarrollo; problemas como la ausencia de certificados CA en XAMPP requieren soluciones específicas que no se anticipan desde la teoría.</li>
+  <li>Documentar el código desde el inicio con comentarios en español facilita la transferencia del sistema al cliente y su mantenimiento futuro por terceros.</li>
+  <li>Las integraciones con servicios externos (Twilio, Supabase) tienen restricciones en cuentas de prueba que deben considerarse en la planificación del proyecto.</li>
+</ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     7. RECOMENDACIONES
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>7. Recomendaciones</h3>
+
+<h4>Para la empresa</h4>
+<ul>
+  <li>Migrar el sistema a un hosting real (servidor Linux con dominio propio) para que sea accesible desde internet y los trabajadores puedan actualizar el estado de actividades directamente desde la obra mediante su celular.</li>
+  <li>Configurar el script de alertas SMS para que se ejecute automáticamente cada mañana mediante una tarea programada (cron), eliminando la necesidad de presionar el botón manualmente desde el dashboard.</li>
+  <li>Contratar un número de Twilio real (no de prueba) para el envío de SMS en producción y verificar el número del supervisor para garantizar la recepción de alertas en un celular real.</li>
+  <li>Realizar capacitaciones periódicas a los trabajadores sobre el uso del sistema, especialmente en el registro y cambio de estado de actividades desde la vista de cada proyecto.</li>
+</ul>
+
+<h4>Para futuros practicantes y el programa de prácticas</h4>
+<ul>
+  <li>Iniciar el levantamiento de requerimientos en la primera semana con entrevistas estructuradas al supervisor, para evitar cambios de alcance en etapas avanzadas del desarrollo.</li>
+  <li>El uso de plataformas de base de datos en la nube como Supabase agiliza significativamente el desarrollo al proveer una API REST lista para usar, sin necesidad de configurar un servidor de base de datos propio.</li>
+  <li>Se recomienda que la universidad incluya más contenido práctico sobre integración con APIs de terceros (mensajería, pagos, correo) en el plan de estudios, dado que son requerimientos frecuentes en proyectos empresariales reales.</li>
+  <li>Documentar el código con comentarios desde el inicio del proyecto facilita la entrega final y demuestra buenas prácticas de ingeniería de software ante el cliente y el docente evaluador.</li>
+</ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     8. BIBLIOGRAFÍA
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>8. Bibliografía / Referencias</h3>
+<ul>
+  <li>Supabase Inc. (2024). <em>Supabase Documentation — Database & REST API</em>. Recuperado de https://supabase.com/docs</li>
+  <li>Twilio Inc. (2024). <em>Twilio SMS API Documentation</em>. Recuperado de https://www.twilio.com/docs/sms</li>
+  <li>PHP Group. (2024). <em>PHP Manual</em>. Recuperado de https://www.php.net/manual/es/</li>
+  <li>Mozilla Developer Network. (2024). <em>MDN Web Docs — JavaScript Reference</em>. Recuperado de https://developer.mozilla.org/es/docs/Web/JavaScript</li>
+  <li>Pressman, R. S., & Maxim, B. R. (2014). <em>Ingeniería del software: Un enfoque práctico</em> (8.ª ed.). McGraw-Hill Education.</li>
+  <li>Codd, E. F. (1970). A relational model of data for large shared data banks. <em>Communications of the ACM, 13</em>(6), 377–387.</li>
+  <li>OWASP Foundation. (2023). <em>OWASP Top Ten — Riesgos de seguridad en aplicaciones web</em>. Recuperado de https://owasp.org/www-project-top-ten/</li>
+</ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     9. ANEXOS
+══════════════════════════════════════════════════════════ -->
+<div class="seccion">
+<h3>9. Anexos</h3>
+<ul>
+  <li><strong>Anexo A:</strong> Diagrama entidad-relación de la base de datos (tablas: unidades, proyectos, fases, actividades, alertas).</li>
+  <li><strong>Anexo B:</strong> Capturas de pantalla del sistema — Login, Dashboard de unidades y apartamentos, Vista de proyecto con fases y actividades, Reporte imprimible.</li>
+  <li><strong>Anexo C:</strong> Código fuente del sistema Planmejora (repositorio Git con los archivos PHP, HTML, CSS, JavaScript y Python).</li>
+  <li><strong>Anexo D:</strong> Manual de usuario del sistema Planmejora.</li>
+  <li><strong>Anexo E:</strong> Cronograma de actividades de la práctica (16 semanas).</li>
+</ul>
+</div>
+
+<hr>
+<p style="text-align:center; font-size:10pt; color:#666; margin-top:40px">
+  María Camila Espinosa Florez — Ingeniería de Sistemas — Unicatólica Cali — Mayo 2026
+</p>
+
+</body>
+</html>

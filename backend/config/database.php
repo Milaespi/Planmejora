@@ -24,9 +24,9 @@ function loadEnv(string $path): void {
 // Carga el .env que está dos carpetas arriba de este archivo
 loadEnv(__DIR__ . '/../../.env');
 
-// Guarda la URL y la clave de Supabase como constantes globales
-define('SUPABASE_URL', rtrim($_ENV['SUPABASE_URL'] ?? '', '/'));
-define('SUPABASE_KEY', $_ENV['SUPABASE_KEY'] ?? '');
+// Las variables de Railway (getenv) tienen prioridad sobre el .env local
+define('SUPABASE_URL', rtrim(getenv('SUPABASE_URL') ?: ($_ENV['SUPABASE_URL'] ?? ''), '/'));
+define('SUPABASE_KEY', getenv('SUPABASE_KEY') ?: ($_ENV['SUPABASE_KEY'] ?? ''));
 
 // ── Función principal para hablar con Supabase ─────────────────────────────────
 // supabase() envía peticiones HTTP a la API REST de Supabase.
@@ -60,10 +60,9 @@ function supabase(string $method, string $table, array $params = [], ?array $bod
         CURLOPT_RETURNTRANSFER => true,          // Que la respuesta se guarde en variable, no que se imprima
         CURLOPT_HTTPHEADER     => $headers,       // Agrega las cabeceras de arriba
         CURLOPT_CUSTOMREQUEST  => strtoupper($method), // El verbo HTTP (GET, POST, etc.)
-        // NOTA: Verificación SSL desactivada porque XAMPP local no tiene certificados CA instalados.
-        // En producción (servidor real) esto debe activarse (poner true).
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false,
+        // SSL: desactivado en local (XAMPP no tiene CA bundle), activado en producción
+        CURLOPT_SSL_VERIFYPEER => getenv('APP_ENV') === 'production',
+        CURLOPT_SSL_VERIFYHOST => getenv('APP_ENV') === 'production' ? 2 : 0,
     ]);
 
     // Si hay datos para enviar (POST/PATCH), los convierte a JSON y los adjunta

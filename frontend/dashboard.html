@@ -704,10 +704,32 @@
       btn.textContent = 'Enviando...';
       try {
         const res  = await fetch(`${API}/notificaciones.php`, { method: 'POST' });
-        const json = await res.json();
-        btn.textContent = json.success ? 'SMS enviados ✓' : 'Error al enviar';
-        setTimeout(() => { btn.disabled = false; btn.textContent = 'Enviar SMS ahora'; }, 3000);
-      } catch {
+        const text = await res.text();
+        let json;
+        try { json = JSON.parse(text); }
+        catch { alert('Respuesta inesperada del servidor:\n\n' + text); btn.disabled=false; btn.textContent='Enviar SMS ahora'; return; }
+
+        // Muestra el resultado real del script en un alert para saber si funcionó
+        if (json.success) {
+          const salida = json.data?.salida?.trim();
+          const codigo = json.data?.codigo;
+          if (codigo === 0 && salida) {
+            alert('✅ SMS procesado\n\n' + salida);
+            btn.textContent = 'SMS enviados ✓';
+          } else if (salida) {
+            alert('⚠ El script terminó con errores:\n\n' + salida);
+            btn.textContent = 'Revisar salida';
+          } else {
+            alert('✅ Script ejecutado sin salida (puede que no haya actividades retrasadas pendientes de alertar).');
+            btn.textContent = 'Ejecutado';
+          }
+        } else {
+          alert('❌ Error: ' + (json.error ?? 'No se pudo ejecutar el script'));
+          btn.textContent = 'Error al enviar';
+        }
+        setTimeout(() => { btn.disabled = false; btn.textContent = 'Enviar SMS ahora'; }, 4000);
+      } catch (err) {
+        alert('❌ Error de red: ' + err.message);
         btn.textContent = 'Error';
         setTimeout(() => { btn.disabled = false; btn.textContent = 'Enviar SMS ahora'; }, 3000);
       }
