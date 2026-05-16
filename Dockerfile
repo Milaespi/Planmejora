@@ -1,19 +1,16 @@
 FROM php:8.2-apache
 
-# Instala Python 3, pip y dependencias del sistema
-RUN apt-get update && apt-get install -y \
-    python3 python3-pip python3-venv \
+# --no-upgrade evita que apt actualice apache2 y resetee la configuración MPM
+# --no-install-recommends evita instalar paquetes innecesarios
+RUN apt-get update && apt-get install -y --no-upgrade --no-install-recommends \
+    python3 python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Instala las librerías Python necesarias
 RUN pip3 install twilio requests --break-system-packages
 
-# Elimina los módulos MPM conflictivos y deja solo prefork (requerido por PHP)
-RUN rm -f /etc/apache2/mods-enabled/mpm_event.conf \
-           /etc/apache2/mods-enabled/mpm_event.load \
-           /etc/apache2/mods-enabled/mpm_worker.conf \
-           /etc/apache2/mods-enabled/mpm_worker.load \
-    && a2enmod mpm_prefork rewrite headers
+# Habilita mod_rewrite y headers (mpm_prefork ya está activo en la imagen base)
+RUN a2enmod rewrite headers
 
 # Copia el proyecto completo al servidor
 COPY . /var/www/html/
