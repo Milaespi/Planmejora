@@ -8,8 +8,11 @@ RUN apt-get update && apt-get install -y \
 # Instala las librerías Python necesarias
 RUN pip3 install twilio requests --break-system-packages
 
-# Desactiva MPMs extras y deja solo prefork (requerido por PHP)
-RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
+# Elimina los módulos MPM conflictivos y deja solo prefork (requerido por PHP)
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.conf \
+           /etc/apache2/mods-enabled/mpm_event.load \
+           /etc/apache2/mods-enabled/mpm_worker.conf \
+           /etc/apache2/mods-enabled/mpm_worker.load \
     && a2enmod mpm_prefork rewrite headers
 
 # Copia el proyecto completo al servidor
